@@ -1,0 +1,18 @@
+﻿
+
+@foreach (var item in Model)
+{
+<li>
+    <a href="/Product/Detail/@item.id"><img src="~/Assets/Upload/Products/@item.photo" style="margin-right:5px;" /></a>
+    <a href="/Product/Detail/@item.id" style="overflow: hidden; text-overflow: ellipsis; line-height: 22px; -webkit-line-clamp: 2; height: 45px; -webkit-box-orient: vertical; display: -webkit-box;">@item.title</a>
+</li>
+}
+<style>
+    a {
+        color: #111111;
+    }
+    a:hover{
+        text-decoration:none;
+
+    }
+</style>

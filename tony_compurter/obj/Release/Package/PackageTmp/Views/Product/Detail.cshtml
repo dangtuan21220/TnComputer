@@ -1,0 +1,295 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using tony_compurter.Models
+@using System.Data
+@using tony_compurter.Areas.Admin.Class
+@functions{
+    public DataContext db = new DataContext();
+    //lay cac anh thuoc san pham nay trong bang ProductsImages
+    public DataTable GetImages(int _product_id)
+    {
+        DataTable dt = Database.ListDataTable("select * from ProductsImages where product_id=" + _product_id);
+        return dt;
+    }
+    //lay ten danh muc
+    public string GetCategoryName(int _id)
+    {
+        //lay mot ban ghi
+        Category record = db.Categories.Where(tbl => tbl.id == _id).FirstOrDefault();
+        try
+        {
+            return record.name;
+        }
+        catch { return ""; }
+    }
+    //lay ds san pham lien quan
+    public List<Product> GetProduct(int _category_id)
+    {
+        List<Product> listRecord = db.Products.Where(tbl => tbl.category_id == _category_id).OrderBy(tbl => tbl.id).Skip(0).Take(8).ToList();
+        return listRecord;
+    }
+    //lấy id san pham
+    public int GetId(int _id)
+    {
+        Product record = db.Products.Where(tbl => tbl.id == _id).FirstOrDefault();
+        return record.id;
+    }
+    //lay so luong rating
+    public int GetRating(int _product_id, int _star)
+    {
+        int _NumStar = db.Ratings.Where(tbl => tbl.product_id == _product_id && tbl.star == _star).Count();
+        return _NumStar;
+    }
+    //lây tb so luong rating
+    public double GetRatingAvg(int _product_id)
+    {
+        List<Rating> record = db.Ratings.Where(tbl => tbl.product_id == _product_id).ToList();
+
+        if(record.Count == 0)
+        {
+            int _Avg = 0;
+            return _Avg;
+
+        }
+        else
+        {
+            var _AvgStar = record.Average(s => s.star);
+            return _AvgStar;
+        }
+    }
+    //lấy ds Rating
+    public List<Rating> ListRating(int _product_id)
+    {
+        List<Rating> record = db.Ratings.Where(tbl => tbl.product_id == _product_id).ToList();
+        return record;
+    }
+    //ham lay ten 
+    public string GetCustomer(int _id)
+    {
+        Customer record = db.Customers.Where(tbl => tbl.id == _id).FirstOrDefault();
+        return record.name;
+    }
+}
+<div class="content-chitiet container-fluid">
+    <div class="content-chitiet-title">
+        <a href="/Home/Index" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href="" style="color: #234a76;">@Model.name</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href="/Product/Category/@Model.category_id" style="color: #234a76;">@GetCategoryName(Model.category_id)</a>
+    </div>
+    <h5>@Model.title</h5>
+    <div class="content-chitiet-main">
+        <!-- thongtinsp -->
+        <div class="thongtinsp">
+            <div class="thongtinsp-img">
+                <div class="box"><a><img src="~/Assets/Upload/Products/@Model.photo" id="imgMain"></a></div>
+                <div class="sub">
+                    <ul class="nav">
+                        @{
+                            //lay danh sach cac anh thuoc san pham nay
+                            DataTable listRecord = GetImages(Model.id);
+                            int i = 0;
+                        }
+                        @foreach (DataRow item in listRecord.Rows)
+                        {
+                            i++;
+                            <li style="cursor:pointer;" class="nav-item"><a><img src="~/Assets/Upload/ProductsImages/@item["photo"]" id="image-@i" onclick="changeImage('image-@i')"></a></li>
+
+                        }
+
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- thongtinsp-solieu -->
+            <div class="thongtinsp-solieu">
+
+                <!-- thongso-sp -->
+                <div class="thongso-sp">
+                    <b>Thông số sản phẩm</b>
+                    <ul>
+                        @Html.Raw(Model.description)
+                    </ul>
+                </div>
+                <!-- baohanh-gia -->
+                <div class="baohanh-gia">
+                    <div class="baohanh">Bảo hành: <b style="color: #ee0000;">24 Tháng</b></div>
+                    <div class="gia" style="background:#eeeeee;width: 99%; border-right: 5px;height: 140px;padding-left:10px;">
+                        <p style="padding-top: 30px;">Giá thị trường: <b>&nbsp;<strike>@string.Format("{0:N0}", Model.price) đ</strike></b></p>
+                        <p>
+                            Giá khuyến mại:
+                            <b>@string.Format("{0:N0}", Model.price - (Model.price * Model.discount) / 100) đ</b>
+                            <span style="color: #ee0000;">(Tiết kiệm @string.Format("{0:N0}", (Model.price * Model.discount) / 100) đ)</span>
+                        <p style="margin:-16px 0px 0px 38%;font-size: 13px;">[Giá đã có VAT]</p>
+                        </p>
+                    </div>
+                    <div class="hot">
+                        <p><span>Hot</span> Chính sách Bảo Hành Vàng, bảo hành tại nơi sử dụng cho doanh nghiệp</p>
+                        <p><span>Hot</span> Giảm thêm đến 200.000đ cho học sinh - sinh viên khi mua Laptop, PC nguyên chiếc(Không cộng gộp với khuyến mãi của PC lắp ráp)</p>
+                        <p><span>Hot</span> Vệ sinh 5 bước miễn phí Laptop, PC tại các điểm bán hàng của TONYCOMPUTUER</p>
+                    </div>
+                </div>
+                <!-- muahang -->
+                <div class="muahang">
+                    <a href="/Cart/Add/@Model.id"><div class="themvaogio">THÊM VÀO GIỎ HÀNG</div></a>
+                </div>
+            </div>
+            <div class="thongtinsp-chinhsach">
+                <div class="yentam">
+                    <div class="yentam-title"><i class="fa fa-money " aria-hidden="true"></i> YÊN TÂM MUA HÀNG</div>
+                    <div class="yentam-main">
+                        <ul>
+                            <li>- TOP 3 Nhà bán lẻ IT lớn nhất Việt Nam</li>
+                            <li>- Sản phẩm chính hãng 100%</li>
+                            <li>- Đổi trả hàng miễn phí trong 3 ngày</li>
+                            <li>- Nhận hàng trước trả tiền sau</li>
+                            <li>- Thanh toán linh hoạt</li>
+                            <li>- Mua hàng trả góp lãi suất 0%</li>
+                            <li>- Trả bảo hành tận nơi sử dụng</li>
+                            <li>- Bảo hành tận nơi cho doanh nghiệp</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="chinhsachgiaohang">
+                    <div class="chinhsachgiaohang-title"><i class="fa fa-truck" aria-hidden="true"></i> CHÍNH SÁCH GIAO HÀNG</div>
+                    <div class="chinhsachgiaohang-main">
+                        <ul>
+                            <li>- Giao hàng toàn quốc</li>
+                            <li>- Giao hàng trước trả tiền sau COD</li>
+                            <li>- Miễn phí giao hàng (bán kính 20km) với đơn hàng trên 500.000 đ</li>
+                            <li>- Miễn phí giao hàng 300km với khách hàng Games Net, Doanh Nghiệp, Dự Án</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /thongtinsp -->
+        <!-- danhgiasp -->
+        <div class="danhgiasp">
+            <div class="danhgiasp-title d-flex ml-2">
+                <div class="title-mota">Mô tả</div>
+                <div class="title-danhgia">Đánh giá</div>
+            </div>
+            <!-- danhgiasp-main -->
+            <div class="danhgiasp-main ml-2 mr-2">
+                <div class="danhgiachitiet" style="display: none;">
+                    <h6>Đánh giá, chấm điểm, nhận xét của khách hàng</h6>
+                    <div class="d-flex">
+                        <div class="danhgia">
+                            <div class="diemdanhgia d-flex">
+                                <div class="diemtb">@Math.Round(GetRatingAvg(Model.id), 1)/5 <i class="fa fa-star" aria-hidden="true"></i></div>
+                                <div class="diemchitiet">
+                                    <p style="margin-top:10px">5 <i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<span style="color: #288ad6;">@GetRating(Model.id, 5) đánh giá</span></p>
+                                    <p>4 <i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<span style="color: #288ad6;">@GetRating(Model.id, 4) đánh giá</span></p>
+                                    <p>3 <i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<span style="color: #288ad6;">@GetRating(Model.id, 3) đánh giá</span></p>
+                                    <p>2 <i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<span style="color: #288ad6;">@GetRating(Model.id, 2) đánh giá</span></p>
+                                    <p>1 <i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<span style="color: #288ad6;">@GetRating(Model.id, 1) đánh giá</span></p>
+                                </div>
+                            </div>
+                            @{
+                                List<Rating> listRating = ListRating(Model.id);
+                            }
+                            @foreach (Rating item in listRating)
+                            {
+                                <div class="nhanxet d-flex">
+                                    <div>
+                                        <i class="fa fa-user-circle fa-3x" style="color: #aaaaaa;font-size: 60px;" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            @for (var a = 1; a <= item.star; a++)
+                                            {
+                                                <i class="fa fa-star" style="color:gold" aria-hidden="true"></i>
+                                            }
+
+                                        </p>
+                                        <p><b>@GetCustomer(item.customer_id) </b>- @item.date.ToString("dd/MM/yyyy")</p>
+                                        <p style="line-height: 22px;">@item.comment</p>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                        <div class="chamdiem">
+                          
+                            <form method="post" action="/Product/Rating/@Model.id" enctype="multipart/form-data">
+                                @Html.AntiForgeryToken()
+                                <div class="chamdiem-title">THÊM ĐÁNH GIÁ</div>
+                                <div class="danhgiacuaban">
+                                    <b>Đánh giá của bạn</b>
+                                    <p>
+                                        <input type="number" name="star" id="star" min="1" max="5" step="1" /> <i class="fa fa-star" aria-hidden="true"></i>
+                                    </p>
+                                </div>
+                                <div class="nhanxetcuaban">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1"><b>Nhận xét của bạn </b></label>
+                                        <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3" style="width: 420px;"></textarea>
+                                    </div>
+                                </div>
+                                <input type="submit" value="Gửi đi" class="btn btn-primary">
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="thongtinchitiet">
+                    <div class="thongtinchitiet-title"><h5>THÔNG TIN CHI TIẾT</h5></div>
+                    <div class="thongtinchitiet-main">
+                        <ul>
+                            @Html.Raw(Model.infor)
+                        </ul>
+                    </div>
+                    <!-- Motasanpham -->
+                    <div class="motasanpham">
+                        <h5>MÔ TẢ SẢN PHẨM</h5>
+                        <div class="motasanpham-main">
+                            @Html.Raw(Model.content)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /danhgiasp-main -->
+        </div>
+        <!-- /danhgiasp -->
+        <!-- sptuongtu -->
+        <div class="sptuongtu">
+            <h5>SẢN PHẨM LIÊN QUAN</h5>
+            <div class="sptuongtu-main">
+                <div class="owl-carousel owl-theme products">
+                    @{
+                        List<Product> listProduct = GetProduct(Model.category_id);
+                    }
+                    @foreach (Product item in listProduct)
+                    {
+                        <div class="item">
+                            <div class="item1">
+                                <a href="/Product/Detail/@item.id">
+                                    <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                    <p class="mota">@item.title</p>
+                                    <p class="price" style="text-decoration: line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                    <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                </a>
+                                <a href="/Product/WishList/@item.id" class="buy">
+                                    <i class="fa fa-heart" aria-hidden="true"></i>
+                                    Yêu thích
+                                </a>
+                                <a href="/Cart/Add/@item.id" class="add">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    Thêm vào giỏ
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                
+                </div>
+            </div>
+        </div>
+        <!-- /sptuongtu -->
+    </div>
+</div>

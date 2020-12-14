@@ -1,0 +1,161 @@
+.tintuc-main {
+    width: 80%;
+    margin: auto !important;
+}
+
+.tincongnghe h5 {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.border1 {
+    border-top: 2px solid #aaaaaa;
+    width: 70px;
+    margin-left: 11.5%;
+    margin-top: -8px;
+    margin-bottom: 15px;
+}
+
+.tincongnghe-item, .tinkhuyenmai-item {
+    float: left;
+    margin: 10px 3.5%;
+}
+
+    .tincongnghe-item img, .baivietmoi-item img,
+    .baiviethot-item img {
+        width: 100%;
+    }
+
+    .tincongnghe-item a, .baiviethot-item a,
+    .baivietmoi-item a {
+        color: black;
+    }
+
+.tincongnghe-tomtat {
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+    margin: auto;
+    padding: 5px 10px;
+    width: 68%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 23px;
+    -webkit-line-clamp: 2;
+    height: 47px;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+
+.tincongnghe-item a:hover, .baivietmoi-item a:hover,
+.baiviethot-item a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+.tinkhuyenmai h5 {
+    font-size: 19px;
+    font-style: italic;
+}
+
+.baivietmoi-item {
+    margin: 30px 8% 50px 8%;
+}
+
+.baivietmoi h5 {
+    font-size: 20px;
+}
+.baiviethot h5 {
+    margin-left:7%;
+}
+
+.baiviethot-item, .tinlienquan-item {
+    margin-left: 9%;
+}
+
+@media all and (max-width:1200px) {
+    .tincongnghe-tomtat {
+        font-size: 13px;
+    }
+
+    .tintuc-main {
+        width: 90%;
+    }
+    .baiviethot h5 {
+        margin-left: 2%;
+    }
+    .tincongnghe-item, .tinkhuyenmai-item {
+        margin: 10px 2%;
+    }
+
+    h5 {
+        font-size: 18px;
+    }
+
+    .border1 {
+        width: 60px;
+        margin-left: 8.5%;
+        margin-top: -8px;
+    }
+}
+
+@media all and (max-width:1100px) {
+    .baiviethot h5 {
+        font-size: 17px;
+    }
+}
+
+@media all and (max-width:1000px) {
+    .baiviethot h5 {
+        font-size: 15px;
+    }
+    .border1 {
+        width: 50px;
+        margin-left: 3.5%;
+        margin-top: -8px;
+    }
+    .baiviethot .border1 {
+        margin-left: 7%;
+    }
+    .tincongnghe h5 {
+        font-size: 16px;
+    }
+
+    .tincongnghe-tomtat {
+        font-size: 12px;
+    }
+
+    .tintuc-main {
+        width: 96%;
+    }
+
+    .baiviethot-item, .tinlienquan-item {
+        margin-left: 0;
+    }
+}
+
+@media all and (max-width:800px) {
+    .tintuc-main {
+        width: 100%;
+    }
+}
+
+@media all and (max-width:768px) {
+    .border1 {
+        width: 60px;
+        margin-left: 5.5%;
+        margin-top: -8px;
+    }
+    .baiviethot .border1 {
+        margin-left: 4.5%;
+    }
+}
+.tintuc-content img{
+    width: 100% !important;
+    height: 100% !important;
+}
+.tintuc-content table td {
+    display: table-cell;
+    text-align:center;
+    border: 1px solid black;
+}

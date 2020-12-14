@@ -1,0 +1,82 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+@functions{
+    public DataContext db = new DataContext();
+
+    public string GetName(int _id)
+    {
+        Customer recordName = db.Customers.Where(tbl => tbl.id == _id).FirstOrDefault();
+        return recordName.name;
+    }
+    public string GetEmail(int _id)
+    {
+        Customer recordEmail = db.Customers.Where(tbl => tbl.id == _id).FirstOrDefault();
+        return recordEmail.email;
+    }
+    public string GetPhone(int _id)
+    {
+        Customer recordPhone = db.Customers.Where(tbl => tbl.id == _id).FirstOrDefault();
+        return recordPhone.phone;
+    }
+    public string GetAddress(int _id)
+    {
+        Customer recordAddress = db.Customers.Where(tbl => tbl.id == _id).FirstOrDefault();
+        return recordAddress.address;
+    }
+}
+
+<div class="content" style="margin-bottom:50px;">
+    <div class="content-title">
+        <a href="trangchu.html" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a style="color: #234a76;">Quản lý tài khoản</a>
+    </div>
+    <div class="quanlytk d-flex">
+        <div class="quanly-left">
+            <div class="quanly-admin d-flex">
+                <i class=" fa fa-user-circle" aria-hidden="true"></i>
+                <h6 style="margin-top: 21px;margin-left: 15px;font-size: 18px;">Đặng Văn Tuấn</h6>
+            </div>
+            <div class="quanly-danhmuc">
+                <ul>
+                    <li><a href="/Account/ThongTinCaNhan/@ViewBag.id">Thông tin cá nhân</a></li>
+                    <li><a href="/Account/DonHang/@ViewBag.id">Đơn hàng của bạn</a></li>
+                    <li><a href="/Account/SuaThongTin/@ViewBag.id">Sửa thông tin</a></li>
+                    <li><a href="/Account/Logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="quanly-right">
+            <div><h4>Thông tin cá nhân</h4></div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row" style="width:250px">Họ Tên</th>
+                        <td>@GetName(ViewBag.id)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td>@GetEmail(ViewBag.id)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Điện thoại</th>
+                        <td>@GetPhone(ViewBag.id)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Địa chỉ</th>
+                        <td>@GetAddress(ViewBag.id)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+

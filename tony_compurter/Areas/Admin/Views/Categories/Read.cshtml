@@ -1,0 +1,74 @@
+﻿
+@using tony_compurter.Models
+@* khai bao kieu du lieu cho bien Model(bien nay tu controller ra) *@
+@model PagedList.IPagedList<Category>
+@* dong nay de khai bao doi tg PageListPaper va dtg Html *@
+@using PagedList.Mvc
+@functions{
+    //tao ham bang tag sau
+    public DataContext db = new DataContext();
+    public List<Category> getCategories(int _id)
+    {
+        List<Category> listRecord = db.Categories.Where(tbl => tbl.parent_id == _id).ToList();
+        return listRecord;
+    }
+}
+<section class="content-header">
+    <h1>
+        Danh mục sản phẩm
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Danh mục sản phẩm</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="col-md-12">
+        <div style="margin-bottom:5px;">
+            <a href="/Admin/Categories/Create" class="btn btn-primary">Add category</a>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">List cateogry</div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>Name</th>
+                        <th style="width:100px;"></th>
+                    </tr>
+                    @foreach (Category item in Model)
+                    {
+                        <tr>
+                            <td>@item.name</td>
+                            <td style="text-align:center">
+                                <a href="/Admin/Categories/Update/@item.id">Edit</a>&nbsp;
+                                <a href="/Admin/Categories/Delete/@item.id">Delete</a>
+                            </td>
+                        </tr>
+
+                        List<Category> listSubRecord = getCategories(item.id);
+                        foreach (Category itemSub in listSubRecord)
+                        {
+                            <tr>
+                                <td style="padding-left:50px;">@itemSub.name</td>
+                                <td style="text-align:center">
+                                    <a href="/Admin/Categories/Update/@itemSub.id">Edit</a>&nbsp;
+                                    <a href="/Admin/Categories/Delete/@itemSub.id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                </table>
+                <style type="text/css">
+                    .pagination {
+                        padding: 0px;
+                        margin: 0px;
+                    }
+                </style>
+                @Html.PagedListPager(Model, page => Url.Action("Read", new { page }))
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end content -->

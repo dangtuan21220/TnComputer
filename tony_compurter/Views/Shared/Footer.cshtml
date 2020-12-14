@@ -1,0 +1,109 @@
+﻿@using System.Data
+@using tony_compurter.Models
+@using tony_compurter.Areas.Admin.Class;
+@functions{
+    DataContext db = new DataContext();
+    public DataTable ListShowroom()
+    {
+        List<Parameter> parameters = new List<Parameter>();
+        DataTable dt = Database.ListDataTable("select * from Showrooms order by id asc", parameters);
+        return dt;
+    }
+}
+
+
+<footer class="container-fluid">
+    <!-- nhan-email -->
+    <div class="nhan-email">
+        <p class="nhan-email-title">ĐĂNG KÝ NHẬN EMAIL THÔNG BÁO KHUYẾN MẠI HOẶC ĐỂ ĐƯỢC TƯ VẤN MIỄN PHÍ</p>
+        <form method="post" action="/Home/Mailing" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="nhan-email-form">
+                <input type="text" name="email" id="my-email" placeholder="Nhập email của bạn">
+                <input type="submit" id="send" value="Gửi" onclick="Thongbao()" class="btn btn-danger">
+            </div>
+        </form>
+    </div>
+    <script>
+        function Thongbao() {
+            alert("Quý khách đã đăng ký email thành công");
+        }
+    </script>
+    <!-- showroom -->
+    <div class="showroom">
+        <div class="showroom-title">HỆ THỐNG CÁC SHOWROOM CỦA TONYCOMPUTER</div>
+        <div class="clear-showroom-title"></div>
+        <div class="showroom-main row">
+            @{
+                DataTable listShowroom = ListShowroom();
+            }
+            @foreach (DataRow item in listShowroom.Rows)
+            {
+                <div class="showroom-content">
+                    <div class="showroom-content-tieude">@item["name"]</div>
+                    <div class="gioithieutony-content-clear" style="border-top:2px solid #ed1b24;width: 80px;margin-top: 3px;"></div>
+                    <div class="showroom-content-info">
+                        <p><i class="fa fa-map-marker" aria-hidden="true"></i>@item["address"]</p>
+                        <p><i class="fa fa-phone" aria-hidden="true"></i>@item["phone"]</p>
+                        <p><i class="fa fa-envelope-o" aria-hidden="true"></i>@item["email"]</p>
+                        <p><i class="fa fa-clock-o" aria-hidden="true"></i>Thời gian mở cửa: @item["open_time"]</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- /showroom -->
+    <!-- gioithieutony -->
+    <div style="border-top: 1px solid #aaaaaa;margin-top: 40px;margin-bottom: 1px;"></div>
+    <div class="gioithieutony">
+        <div class="gioithieutony-content row">
+            <div>
+                <div class="gioithieutony-content-title">GIỚI THIỆU TONYCOMPUTER</div>
+                <div class="gioithieutony-content-clear" style="border-top:2px solid #ed1b24;width: 100px;margin-top: 3px;margin-bottom: 10px;"></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Giới thiệu công ty</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Thông tin liên hệ</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Thông tin tuyển dụng</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Tin tức</a></div>
+            </div>
+            <div>
+                <div class="gioithieutony-content-title">HỖ TRỢ KHÁCH HÀNG</div>
+                <div class="gioithieutony-content-clear" style="border-top:2px solid #ed1b24;width: 100px;margin-top: 4px;margin-bottom: 10px;"></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Hướng dẫn mua hàng trực tuyến</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Hướng dẫn thanh toán</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Hướng dẫn mua hàng trả góp</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">In hóa đơn điện tử</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Gửi yêu cầu bảo hành</a></div>
+                <div><a href="https://www.facebook.com/dangtuan21220">Thắc mắc, góp ý</a></div>
+            </div>
+            <div>
+                <div class="gioithieutony-content-title">CHÍNH SÁCH CHUNG</div>
+                <div class="gioithieutony-content-clear" style="border-top:2px solid #ed1b24;width: 100px;margin-top: 3px;margin-bottom: 10px;"></div>
+                <div><a href="#">Chính sách, quy định chung</a></div>
+                <div><a href="#">Chính sách vận chuyển</a></div>
+                <div><a href="#">Chính sách bảo hành</a></div>
+                <div><a href="#">Chính sách đổi trả và hoàn tiền</a></div>
+                <div><a href="#">Chính sách cho doanh nghiệp</a></div>
+                <div><a href="#">Chính sách hàng chính hãng</a></div>
+                <div><a href="#">Bảo mật thông tin khách hàng</a></div>
+            </div>
+            <div>
+                <div class="gioithieutony-content-title">THÔNG TIN KHUYẾN MẠI</div>
+                <div class="gioithieutony-content-clear" style="border-top:2px solid #ed1b24;width: 100px;margin-top: 3px;margin-bottom: 10px;"></div>
+                <div><a href="#">Thông tin khuyến mại</a></div>
+                <div><a href="#">Sản phẩm khuyến mại</a></div>
+                <div><a href="#">Sản phẩm bán chạy</a></div>
+                <div><a href="#">Sản phẩm mới</a></div>
+                <a href="http://www.online.gov.vn/Home/WebDetails/5016"><img src="~/Assets/Frontend/images/dathongbao.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+    <!-- /gioithieu -->
+    <!-- copyright -->
+    <div class="copyright">
+        <p>© 2020 Công Ty Cổ Phần Máy Tính Hà Nội</p>
+        <p>Địa chỉ: Số 129 + 131, phố Lê Thanh Nghị, Phường Đồng Tâm, Quận Hai Bà Trưng, Hà Nội</p>
+        <p>GPĐKKD số 0101161194 do Sở KHĐT Tp.Hà Nội cấp ngày 31/8/2001</p>
+        <p>Email:tnc@tonycomputer.com. Điện thoại: 1900 1903</p>
+    </div>
+    <!-- /copyright -->
+</footer>

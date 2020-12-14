@@ -1,0 +1,152 @@
+﻿@* muon nhin thay class DataContext.cs thai phai load thu muc Models vao day *@
+@using tony_compurter.Models
+@using System.Data
+@using tony_compurter.Areas.Admin.Class
+@functions{
+    DataContext db = new DataContext();
+    //ham lay danh muc cap 1
+    public DataTable ListCategories()
+    {
+        List<Parameter> parameters = new List<Parameter>();
+        DataTable dt = Database.ListDataTable("select * from Categories where parent_id=0 order by id desc", parameters);
+        return dt;
+    }
+    //ham lay dan muc cap 2
+    public DataTable ListCategoriesSub(int _id)
+    {
+        List<Parameter> parameters = new List<Parameter>();
+        parameters.Add(new Parameter() { name = "@id", value = _id.ToString() });
+        DataTable dt = Database.ListDataTable("select * from Categories where parent_id = @id order by id desc", parameters);
+        return dt;
+    }
+}
+
+<section class="content-header">
+    <h1>
+        Danh sách sản phẩm
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"><a href="/Admin/Products/Read">Danh sách sản phẩm</a></li>
+        <li class="active">Create</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Create Product</div>
+            <div class="panel-body">
+                @* muon upload duoc anh phai co thuoc tinh enctype="multipart/form-data" *@
+                <form method="post" action="" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Name</div>
+                        <div class="col-md-10">
+                            <input type="text" value="@if (Model != null) {<text>@Model["name"]</text>}" name="name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Title</div>
+                        <div class="col-md-10">
+                            <input type="text" value="@if (Model != null) {<text>@Model["title"]</text>}" name="title" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Price</div>
+                        <div class="col-md-10">
+                            <input type="text" value="@if (Model != null) {<text>@Model["price"]</text>}" name="price" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Discount</div>
+                        <div class="col-md-10">
+                            <input type="text" value="@if (Model != null) {<text>@Model["discount"]</text>}" name="discount" class="form-control" required>
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Category</div>
+                        <div class="col-md-10">
+                            <select name="category_id" class="form-control" style="width: 300px;">
+                                @{
+                                    DataTable listCategories = ListCategories();
+                                }
+                                @foreach (DataRow item in listCategories.Rows)
+                                {
+                                    <option @if (Model != null && Convert.ToInt32(Model["category_id"]) == Convert.ToInt32(item["id"])) { <text> selected</text>} value="@item["id"]">@item["name"]</option>
+                                    //lay cac dan muc cap con
+                                    DataTable listCategoriesSub = ListCategoriesSub(Convert.ToInt32(item["id"]));
+                                    foreach (DataRow itemSub in listCategoriesSub.Rows)
+                                    {
+                                        <option @if (Model != null && Convert.ToInt32(Model["category_id"]) == Convert.ToInt32(itemSub["id"])) { <text> selected</text>} value="@itemSub["id"]">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@itemSub["name"]</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Descripition</div>
+                        <div class="col-md-10">
+                            <textarea name="description" id="description">@if (Model != null) {<text>@Model["description"]</text>}</textarea>
+                            <script language="javascript">
+                                CKEDITOR.replace("description");
+                            </script>
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Infor</div>
+                        <div class="col-md-10">
+                            <textarea name="infor" id="infor">@if (Model != null) {<text>@Model["infor"]</text>}</textarea>
+                            <script language="javascript">
+                                CKEDITOR.replace("infor");
+                            </script>
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Content</div>
+                        <div class="col-md-10">
+                            <textarea name="content" id="content">@if (Model != null) {<text>@Model["content"]</text>}</textarea>
+                            <script language="javascript">
+                                CKEDITOR.replace("content");
+                            </script>
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Product_type</div>
+                        <div class="col-md-10">
+                            <input type="text" value="@if (Model != null) {<text>@Model["product_type"]</text>}" name="product_type" class="form-control" required>
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Upload image</div>
+                        <div class="col-md-10">
+                            <input type="file" name="photo">
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10">
+                            <input type="submit" value="Process" class="btn btn-primary">
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

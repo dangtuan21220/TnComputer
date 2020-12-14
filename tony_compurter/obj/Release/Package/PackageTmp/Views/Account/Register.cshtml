@@ -1,0 +1,57 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+
+<div class="container dangky">
+    @if (Request.QueryString["notify"] != null && Request.QueryString["notify"] == "email_exists")
+    {
+        <div class="alert alert-danger">Email đã tồn tại, đăng ký không thành công</div>
+    }
+    else if (Request.QueryString["notify"] != null && Request.QueryString["notify"] == "success")
+    {
+        <div class="alert alert-success">Đăng ký thành công</div>
+    }
+    else
+    {
+        <p> Nếu bạn chưa có tài khoản, hãy đăng ký ngay để nhận thông tin ưu đãi cùng những ưu đãi từ cửa hàng.</p>
+    }
+    <div class="panel panel-primary row">
+        <div class="panel-body col-md-6">
+            <form action="" method="post">
+                @Html.AntiForgeryToken()
+                <h3 class="title">Đăng ký tài khoản</h3>
+                <div class="form-group">
+                    <label>Họ và tên:</label>
+                    <input type="text" name="name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Email:<b id="req">*</b></label>
+                    <input type="text" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu:<b id="req">*</b></label>
+                    <input type="password" name="password" class="form-control" required="">
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ:</label>
+                    <input type="text" name="address" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Điện thoại:</label>
+                    <input type="text" name="phone" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Đăng ký">
+                </div>
+            </form>
+        </div>
+        <div class="panel-body col-md-5 dangky-right">
+            <div class="list-group-item-dark">
+                <p>Đăng nhập tài khoản nếu bạn đã có tài khoản. Đăng nhập tài khoản để theo dõi đơn đặt hàng, vận chuyển và đặt hàng được thuận lợi.</p>
+                <a href="/Account/Login" class="btn btn-success">Đăng nhập</a>
+            </div>
+        </div>
+    </div>
+</div>

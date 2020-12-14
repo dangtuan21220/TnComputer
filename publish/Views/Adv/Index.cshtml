@@ -1,0 +1,21 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+<div class="content">
+    <div class="content-title">
+        <a href="/Home/Index" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href="/News/Index" style="color: #234a76;">Quảng cáo</a>
+    </div>
+    <div style="width:80%; margin:auto;">
+        <div style="margin-top:10px;">@Html.Raw(Model.content)</div>
+    </div>
+</div>
+

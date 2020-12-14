@@ -1,0 +1,483 @@
+﻿@{
+    //load file TrangChu
+    Layout = "~/Views/Shared/_LayoutTrangChu.cshtml";
+}
+@using tony_compurter.Models
+@using tony_compurter.Areas.Admin.Class
+@using System.Data
+@functions{
+    DataContext db = new DataContext();
+    public List<Category> GetCategories()
+    {
+        List<Category> listRecord = db.Categories.Where(tbl => tbl.parent_id == 0).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+    //lay cac danh muc cap 1
+    public List<Category> GetCategoriesSub(int _id)
+    {
+        List<Category> listRecord = db.Categories.Where(tbl => tbl.parent_id == _id).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+    //lấy các sp bán chạy
+    public List<Product> SellingProducts()
+    {
+        //Skip(0).Take(5) -> tu ban ghi thu 0, lay 5 ban ghi <=> select TOP 6 from tenbang
+        List<Product> listProduct = db.Products.Where(tbl => tbl.product_type == 1).OrderByDescending(tbl => tbl.id).Skip(0).Take(6).ToList();
+        return listProduct;
+    }
+    public List<Product> NewProducts()
+    {
+        //Skip(0).Take(5) -> tu ban ghi thu 0, lay 5 ban ghi <=> select TOP 6 from tenbang
+        List<Product> listProduct = db.Products.Where(tbl => tbl.product_type == 2).OrderByDescending(tbl => tbl.id).Skip(0).Take(6).ToList();
+        return listProduct;
+    }
+    public List<Product> SaleProducts()
+    {
+        //Skip(0).Take(5) -> tu ban ghi thu 0, lay 5 ban ghi <=> select TOP 6 from tenbang
+        List<Product> listProduct = db.Products.Where(tbl => tbl.product_type == 3).OrderByDescending(tbl => tbl.id).Skip(0).Take(6).ToList();
+        return listProduct;
+    }
+    public List<Product> LaptopProducts()
+    {
+        //Skip(0).Take(5) -> tu ban ghi thu 0, lay 5 ban ghi <=> select TOP 6 from tenbang
+        List<Product> listProduct = db.Products.Where(tbl => tbl.name == "Laptop").OrderByDescending(tbl => tbl.id).Skip(0).Take(6).ToList();
+        return listProduct;
+    }
+    public List<Product> MobileProducts()
+    {
+        //Skip(0).Take(5) -> tu ban ghi thu 0, lay 5 ban ghi <=> select TOP 6 from tenbang
+        List<Product> listProduct = db.Products.Where(tbl => tbl.name == "Điện thoại").OrderByDescending(tbl => tbl.id).Skip(0).Take(6).ToList();
+        return listProduct;
+    }
+    public List<Product> WatchProducts()
+    {
+        //Skip(0).Take(5) -> tu ban ghi thu 0, lay 5 ban ghi <=> select TOP 6 from tenbang
+        List<Product> listProduct = db.Products.Where(tbl => tbl.name == "SmartWatch").OrderByDescending(tbl => tbl.id).Skip(0).Take(6).ToList();
+        return listProduct;
+    }
+    public List<Product> LinhkienProducts()
+    {
+        //Skip(0).Take(5) -> tu ban ghi thu 0, lay 5 ban ghi <=> select TOP 6 from tenbang
+        List<Product> listProduct = db.Products.Where(tbl => tbl.name == "Linh kiện máy tính").OrderByDescending(tbl => tbl.id).Skip(0).Take(6).ToList();
+        return listProduct;
+    }
+    //lấy tin tức hot
+    public List<News> GetHotNews()
+    {
+        List<News> listNews = db.News.Where(tbl => tbl.hot == 1).OrderByDescending(tbl => tbl.id).Skip(0).Take(4).ToList();
+        return listNews;
+    }
+    public List<News> GetNewsTwo()
+    {
+        List<News> listNews = db.News.Where(tbl => tbl.hot == 1).OrderByDescending(tbl => tbl.id).Skip(4).Take(2).ToList();
+        return listNews;
+    }
+    //lấy tin tức
+    public List<News> GetNews()
+    {
+        List<News> listNews = db.News.Where(tbl => tbl.hot == 1).OrderByDescending(tbl => tbl.id).Skip(7).Take(4).ToList();
+        return listNews;
+    }
+    //lay quang cao
+    public DataTable ListAdvs()
+    {
+        List<Parameter> parameters = new List<Parameter>();
+        DataTable dt = Database.ListDataTable("select top 3 * from Advs order by id desc", parameters);
+        return dt;
+    }
+}
+
+<div class="wrapper container-fluid">
+    <!-- main-top -->
+    <div class="main-top">
+        <!-- category -->
+        <div class="category">
+            <ul class="nav flex-column">
+                @{
+                    List<Category> listCategories = GetCategories();
+                }
+                @foreach (Category item in listCategories)
+                {
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/Product/Category/@item.id">
+                            @Html.Raw(item.icon)
+                            @item.name
+                            <ul class="sub-menu">
+                                @{
+                                    List<Category> listCategoriesSub = GetCategoriesSub(item.id);
+                                }
+                                @foreach (Category itemSub in listCategoriesSub)
+                                {
+                                    <li>
+                                        <a href="/Product/Category/@itemSub.id">@itemSub.name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+        <!-- /category -->
+        <!-- slider -->
+        <div class="slider">
+            <div class="owl-carousel owl-theme slide">
+                @{
+                    List<News> getNews = GetHotNews();
+                }
+                @foreach (News item in getNews)
+                {
+                    <div class="item" style="display: flex;">
+                        <div class="item1"><a href="/News/Detail/@item.id"><img src="~/Assets/Upload/News/@item.photo"></a></div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+        <!-- /slider -->
+        <!-- viewport -->
+        <div class="viewport">
+            <iframe style="width:240px; height:180px" src="https://www.youtube.com/embed/wxPB-2o-t7E?autoplay=0"></iframe>
+            @{
+                List<News> getNewsTwo = GetNewsTwo();
+            }
+            @foreach (News item in getNewsTwo)
+            {
+                <div><a href="/News/Detail/@item.id"><img src="~/Assets/Upload/News/@item.photo" style="height:154px; width:240px " alt=""></a></div>
+            }
+        </div>
+        <!-- /viewport -->
+    </div>
+    <!-- /main-top -->
+    <!-- main -->
+    <div class="main">
+        <!-- main-left -->
+        <div class="main-left">
+            <!-- top-products -->
+            <div class="top-products">
+                <div class="top-products-title">
+                    <ul class="nav container-fluid">
+                        <li id="banchay" class="nav-item">
+                            <a class="nav-link t-no-res">SẢN PHẨM BÁN CHẠY</a>
+                            <a class="nav-link t-res">BÁN CHẠY</a>
+                        </li>
+                        <li id="moi" class="nav-item">
+                            <a class="nav-link t-no-res">SẢN PHẨM MỚI</a>
+                            <a class="nav-link t-res">MỚI</a>
+                        </li>
+                        <li id="khuyenmai" class="nav-item">
+                            <a class="nav-link t-no-res">SẢN PHẨM KHUYẾN MẠI</a>
+                            <a class="nav-link t-res">KHUYẾN MẠI</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- top-products-main -->
+                <div class="top-pr-main top-products-main">
+                    <div class="owl-carousel owl-theme products  products-main">
+                        @{
+                            List<Product> sellingProducts = SellingProducts();
+                        }
+                        @foreach (Product item in sellingProducts)
+                        {
+                            <div class="item">
+                                <div class="item1">
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <p class="mota">@item.title</p>
+                                        <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                        <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                    </a>
+                                    <a href="/Product/WishList/@item.id" class="buy">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Yêu thích
+                                    </a>
+                                    <a href="/Cart/Add/@item.id" class="add">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- top-pr-main -->
+                <!-- product-news -->
+                <div class="product-news top-products-main">
+                    <div class="owl-carousel owl-theme products  products-main">
+                        @{
+                            List<Product> newProducts = NewProducts();
+                        }
+                        @foreach (Product item in newProducts)
+                        {
+                            <div class="item">
+                                <div class="item1">
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <p class="mota">@item.title</p>
+                                        <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                        <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                    </a>
+                                    <a href="/Product/WishList/@item.id" class="buy">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Yêu thích
+                                    </a>
+                                    <a href="/Cart/Add/@item.id" class="add">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- /product-news -->
+                <!-- product-sell -->
+                <div class="product-sell top-products-main">
+                    <div class="owl-carousel owl-theme products products-main">
+                        @{
+                            List<Product> saleProducts = SaleProducts();
+                        }
+                        @foreach (Product item in saleProducts)
+                        {
+                            <div class="item">
+                                <div class="item1">
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <p class="mota">@item.title</p>
+                                        <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                        <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                    </a>
+                                    <a href="/Product/WishList/@item.id" class="buy">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Yêu thích
+                                    </a>
+                                    <a href="/Cart/Add/@item.id" class="add">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- /product-sell -->
+            </div>
+            <!-- /top-products -->
+            <!-- laptop -->
+
+            <div class="laptop">
+                <div class="laptop-title">
+                    <ul class="container-fluid">
+                        <li id="laptop"><a class="nav-link">LAPTOP</a></li>
+                        @{
+                            List<Category> listSub = GetCategoriesSub(1);
+                        }
+                        @foreach (Category itemS in listSub)
+                        {
+                            <li class="loai-laptop"><a href="/Product/Category/@itemS.id">@itemS.name</a></li>
+                        }
+                        <li id="full-laptop"><a href="/Product/Category/1">Xem tất cả</a></li>
+                    </ul>
+                </div>
+                <div class="laptop-main top-products-main">
+                    <div class="owl-carousel owl-theme products">
+                        @{
+                            List<Product> laptopProducts = LaptopProducts();
+                        }
+                        @foreach (Product item in laptopProducts)
+                        {
+                            <div class="item">
+                                <div class="item1">
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <p class="mota">@item.title</p>
+                                        <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                        <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                    </a>
+                                    <a href="/Product/WishList/@item.id" class="buy">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Yêu thích
+                                    </a>
+                                    <a href="/Cart/Add/@item.id" class="add">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- /laptop -->
+            <!-- mobile -->
+            <div class="mobile">
+                <div class="mobile-title">
+                    <ul class="container-fluid">
+                        <li id="mobile"><a class="nav-link">ĐIỆN THOẠI</a></li>
+                        @{
+                            List<Category> listMobileSub = GetCategoriesSub(2);
+                        }
+                        @foreach (Category itemS in listMobileSub)
+                        {
+                            <li class="loai-mobile"><a href="/Product/Category/@itemS.id">@itemS.name</a></li>
+                        }
+                        <li id="full-mobile"><a href="/Product/Category/2">Xem tất cả</a></li>
+                    </ul>
+                </div>
+                <div class="mobile-main top-products-main">
+                    <div class="owl-carousel owl-theme products">
+                        @{
+                            List<Product> mobileProducts = MobileProducts();
+                        }
+                        @foreach (Product item in mobileProducts)
+                        {
+                            <div class="item">
+                                <div class="item1">
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <p class="mota">@item.title</p>
+                                        <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                        <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                    </a>
+                                    <a href="/Product/WishList/@item.id" class="buy">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Yêu thích
+                                    </a>
+                                    <a href="/Cart/Add/@item.id" class="add">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- mobile -->
+            <!-- smartwatch -->
+            <div class="smartwatch">
+                <div class="smartwatch-title">
+                    <ul class="container-fluid">
+                        <li id="smartwatch"><a class="nav-link">SMARTWATCH</a></li>
+                        @{
+                            List<Category> listSmartSub = GetCategoriesSub(3);
+                        }
+                        @foreach (Category itemS in listSmartSub)
+                        {
+                            <li class="loai-smartwatch"><a href="/Product/Category/@itemS.id">@itemS.name</a></li>
+                        }
+                        <li id="full-smartwatch"><a href="/Product/Category/3">Xem tất cả</a></li>
+                    </ul>
+                </div>
+                <div class="smartwatch-main top-products-main">
+                    <div class="owl-carousel owl-theme products">
+                        @{
+                            List<Product> watchProducts = WatchProducts();
+                        }
+                        @foreach (Product item in watchProducts)
+                        {
+                            <div class="item">
+                                <div class="item1">
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <p class="mota">@item.title</p>
+                                        <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                        <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                    </a>
+                                    <a href="/Product/WishList/@item.id" class="buy">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Yêu thích
+                                    </a>
+                                    <a href="/Cart/Add/@item.id" class="add">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /smartwatch -->
+            <!-- linhkien -->
+            <div class="linhkien">
+                <div class="linhkien-title">
+                    <ul class="container-fluid">
+                        <li id="linhkien"><a class="nav-link">LINH KIỆN MÁY TÍNH</a></li>
+                        <li id="full-linhkien"><a href="/Product/Category/4">Xem tất cả</a></li>
+                    </ul>
+                </div>
+                <div class="linhkien-main top-products-main">
+                    <div class="owl-carousel owl-theme products">
+                        @{
+                            List<Product> linhkienProducts = LinhkienProducts();
+                        }
+                        @foreach (Product item in linhkienProducts)
+                        {
+                            <div class="item">
+                                <div class="item1">
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <p class="mota">@item.title</p>
+                                        <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                                        <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                    </a>
+                                    <a href="/Product/WishList/@item.id" class="buy">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                        Yêu thích
+                                    </a>
+                                    <a href="/Cart/Add/@item.id" class="add">
+                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                        Thêm vào giỏ
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /linhkien -->
+        </div>
+
+        <!-- /main-left -->
+        <!-- main-right -->
+        <div class="main-right">
+            <!-- tintuc -->
+            <div class="tintuc">
+                <div class="tintuc-title">TIN TỨC NỔI BẬT</div>
+                <div class="tintuc-content">
+                    @{
+                        List<News> hotNews = GetNews();
+                    }
+                    @foreach (News item in hotNews)
+                    {
+                        <div>
+                            <div class="tintuc-content-tieude" style="margin-top: 5px;"><a href="/News/Detail/@item.id">@item.name</a></div>
+                            <div class="clear"></div>
+                            <div class="tintuc-content-tomtat"><a>@Html.Raw(item.description)</a></div>
+                        </div>
+                        <div class="clear1"></div>
+                    }
+                </div>
+            </div>
+            <!-- /tintuc -->
+            <!-- quangcao -->
+            <div class="adv">
+                @{
+                    DataTable listAdvs = ListAdvs();
+                }
+                @foreach (DataRow item in listAdvs.Rows)
+                {
+                    <a href="/Adv/Index/@item["id"]"><img src="~/Assets/Upload/Adv/@item["photo"]" alt=""></a>
+                }
+            </div>
+        </div>
+        <!-- /main-right -->
+    </div>
+    <!-- /main -->
+</div>

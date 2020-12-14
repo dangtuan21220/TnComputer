@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/styles.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/danhmuc.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/bootstrap.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/dk-dn.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/giohang.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/tintuc.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/chitiet.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/css/easyzoom.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/icon_font/font-awesome/css/font-awesome.min.css">
+    <script src="~/Assets/Frontend/js/jquery-3.5.1.min.js"></script>
+    <script src="~/Assets/Frontend/js/easyzoom.js"></script>
+    <link rel="stylesheet" href="~/Assets/Frontend/owlcarousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Assets/Frontend/owlcarousel/assets/owl.theme.default.min.css">
+    <script src="~/Assets/Frontend/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/Assets/Frontend/js/bootstrap.min.js"></script>
+    <title> Laptop Tony Compurter</title>
+</head>
+<body>
+    <!-- header -->
+    @Html.Partial("~/Views/Shared/HeaderTrangTrong.cshtml")
+    <!-- /header -->
+    <!-- content -->
+    @RenderBody()
+    <!-- /content -->
+    <!-- footer -->
+    @Html.Partial("~/Views/Shared/Footer.cshtml")
+    <!-- /footer -->
+    <!-- menu-res -->
+    @Html.Partial("~/Views/Shared/MenuRes.cshtml")
+    <!-- /menu-res -->
+    <script>
+        //danhmuc-sp
+        $(document).ready(function () {
+            $(".danhmuc-sp").mouseover(function () {
+                $(".danhmuc-sp-category").attr("style", "display:block");
+                $(".danhmuc-sp").attr("style", "background: #eebd37;");
+            });
+            $(".danhmuc-sp").mouseout(function () {
+                $(".danhmuc-sp-category").attr("style", "display:none");
+                $(".danhmuc-sp").attr("style", "background: #f78d1c;");
+            });
+            // hangsanxuat-tieude
+            $(".hangsanxuat-tieude").click(function () {
+                $(".hangsanxuat-main").slideToggle(250);
+                $(".hangsanxuat-main input").slideToggle(250);
+            });
+            //
+            $(".loctheogia-tieude").click(function () {
+                $(".loctheogia-main").slideToggle(250);
+            });
+            // menu-res
+            $(".category-res").click(function () {
+                var div = $(".menu-res-left");
+                div.animate({ left: '0px' }, "slow");
+                $(".menu-res-right").css({ "display": "block", "transition": "3s" });
+                $("body").css("overflow", "hidden");
+            });
+            $(".menu-res-right").click(function () {
+                var div = $(".menu-res-left");
+                div.animate({ left: '-280px' });
+                $(".menu-res-right").css({ "display": "none", "transition": "3s" });
+                $("body").css("overflow", "auto");
+            });
+        });
+        //js phan chi tiet
+        //thongtinsp-img
+        function changeImage(imageId) {
+            //lay gia tri thuoc tinh src
+            var src = document.getElementById(imageId).getAttribute("src");
+            //thay doi anh chinh
+            document.getElementById('imgMain').setAttribute("src", src);
+            //reset dg vien cac the html image
+            document.getElementById('image-1').setAttribute("style", "border:1px solid #dddddd");
+            document.getElementById('image-2').setAttribute("style", "border:1px solid #dddddd");
+            document.getElementById('image-3').setAttribute("style", "border:1px solid #dddddd");
+            document.getElementById('image-4').setAttribute("style", "border:1px solid #dddddd");
+            document.getElementById('image-5').setAttribute("style", "border:1px solid #dddddd");
+            // dat lai dg vien vua click
+            document.getElementById(imageId).setAttribute("style", "border:1px solid black");
+        }
+        //danhmuc-sp
+        $(document).ready(function () {
+            $(".danhmuc-sp").mouseover(function () {
+                $(".danhmuc-sp-category").attr("style", "display:block");
+                $(".danhmuc-sp").attr("style", "background: #eebd37;");
+            });
+            $(".danhmuc-sp").mouseout(function () {
+                $(".danhmuc-sp-category").attr("style", "display:none");
+                $(".danhmuc-sp").attr("style", "background: #f78d1c;");
+            });
+            // danhgia-sp
+            $(".title-danhgia").click(function () {
+                $(".thongtinchitiet").attr("style", "display:none", "background: #eeeeee;");
+                $(".danhgiachitiet").attr("style", "display:block");
+                $(".title-mota").css({ "background": "#eeeeee", "border-top": "2px solid #cccccc" });
+                $(".title-danhgia").css({ "background": "white", "border-top": "2px solid #ec454d" });
+            });
+            $(".title-mota").click(function () {
+                $(".thongtinchitiet").attr("style", "display:block");
+                $(".danhgiachitiet").attr("style", "display:none");
+                $(".title-danhgia").css({ "background": "#eeeeee", "border-top": "2px solid #cccccc" });
+                $(".title-mota").css({ "background": "white", "border-top": "2px solid #ec454d" });
+            });
+            //start
+            $(".star1").mouseover(function () {
+                $(".star1").css("color", "black")
+                $(".star2").css("color", "#bbbbbb")
+                $(".star3").css("color", "#bbbbbb")
+                $(".star4").css("color", "#bbbbbb")
+                $(".star5").css("color", "#bbbbbb")
+            });
+            $(".star2").mouseover(function () {
+                $(".star1").css("color", "black")
+                $(".star2").css("color", "black")
+                $(".star3").css("color", "#bbbbbb")
+                $(".star4").css("color", "#bbbbbb")
+                $(".star5").css("color", "#bbbbbb")
+            });
+            $(".star3").mouseover(function () {
+                $(".star1").css("color", "black")
+                $(".star2").css("color", "black")
+                $(".star3").css("color", "black")
+                $(".star4").css("color", "#bbbbbb")
+                $(".star5").css("color", "#bbbbbb")
+            });
+            $(".star4").mouseover(function () {
+                $(".star1").css("color", "black")
+                $(".star2").css("color", "black")
+                $(".star3").css("color", "black")
+                $(".star4").css("color", "black")
+                $(".star5").css("color", "#bbbbbb")
+            });
+            $(".star5").mouseover(function () {
+                $(".star1").css("color", "black")
+                $(".star2").css("color", "black")
+                $(".star3").css("color", "black")
+                $(".star4").css("color", "black")
+                $(".star5").css("color", "black")
+            });
+
+            // sptuongtu
+            $('.products').owlCarousel({
+                loop: true,
+                margin: 10,
+                responsiveClass: true,
+                navText: ['<i class="fa fa-chevron-left" aria-hidden="true"></i>', '<i class="fa fa-chevron-right" aria-hidden="true"></i>'],
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true,
+                        loop: false
+                    },
+                    300: {
+                        items: 2,
+                        nav: true,
+                        loop: false
+                    },
+                    500: {
+                        items: 3,
+                        nav: true,
+                        loop: false
+                    },
+                    700: {
+                        items: 4,
+                        nav: true,
+                        loop: false
+                    },
+                    1000: {
+                        items: 5,
+                        nav: true,
+                        loop: false
+                    }
+                }
+            });
+            $('.sptuongtu-main').mouseover(function () {
+                $(".sptuongtu-main .owl-nav button.owl-next").attr("style", "display:block");
+                $(".sptuongtu-main .owl-nav button.owl-prev").attr("style", "display:block");
+                $(".sptuongtu-main").attr("style", "margin-bottom:-15px")
+            });
+            $('.sptuongtu-main').mouseout(function () {
+                $(".sptuongtu-main .owl-nav button.owl-next").attr("style", "display:none");
+                $(".sptuongtu-main .owl-nav button.owl-prev").attr("style", "display:none");
+                $(".sptuongtu-main").attr("style", "margin-bottom:0px")
+            });
+            // menu-res
+            $(".category-res").click(function () {
+                var div = $(".menu-res-left");
+                div.animate({ left: '0px' }, "slow");
+                $(".menu-res-right").css({ "display": "block", "transition": "3s" });
+                $("body").css("overflow", "hidden");
+            });
+            $(".menu-res-right").click(function () {
+                var div = $(".menu-res-left");
+                div.animate({ left: '-280px' });
+                $(".menu-res-right").css({ "display": "none", "transition": "3s" });
+                $("body").css("overflow", "auto");
+            });
+            //gio hang
+            $(".shop").mousemove(function () {
+                var div = $(".giohang");
+                div.css("display", "block");
+            });
+            $(".shop").mouseout(function () {
+                var div = $(".giohang");
+                div.css("display", "none");
+            });
+            $(".shop-res").mousemove(function () {
+                var div = $(".giohang-res");
+                div.css("display", "block");
+            });
+            $(".shop-res").mouseout(function () {
+                var div = $(".giohang-res");
+                div.css("display", "none");
+            });
+            //thongtin-banhang
+            $(".bh-on").mousemove(function () {
+                $(".thongtin").attr("style", "display:block");
+                $(".thongtin-bhonline").attr("style", "display:block")
+            });
+            $(".bh-on").mouseout(function () {
+                $(".thongtin").attr("style", "display:none");
+                $(".thongtin-bhonline").attr("style", "display:none")
+            });
+            $(".bh-dn").mousemove(function () {
+                $(".thongtin").attr("style", "display:block");
+                $(".thongtin-bhdn").attr("style", "display:block")
+            });
+            $(".bh-dn").mouseout(function () {
+                $(".thongtin").attr("style", "display:none");
+                $(".thongtin-bhdn").attr("style", "display:none")
+            });
+            //
+            $('.tin').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 1
+                    },
+                    1000: {
+                        items: 1
+                    }
+                }
+            })
+            setInterval(() => {
+                $(".tin .owl-nav button.owl-next").click();
+            }, 10000);
+            
+        });
+
+    </script>
+</body>
+</html>

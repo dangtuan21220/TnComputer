@@ -1,0 +1,80 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+@functions
+{
+    DataContext db = new DataContext();
+    public DataTable ListNews()
+    {
+        List<Parameter> parameters = new List<Parameter>();
+        DataTable dt = Database.ListDataTable("select top 3 * from News order by id desc", parameters);
+        return dt;
+    }
+    public List<News> HotNews()
+    {
+        List<News> listRecord = db.News.Where(tbl => tbl.hot == 1).OrderBy(tbl => tbl.id).Skip(0).Take(2).ToList();
+        return listRecord;
+    }
+}
+<div class="content">
+    <div class="content-title">
+        <a href="/Home/Index" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href="/News/Index" style="color: #234a76;">Tin tức</a>
+    </div>
+    <div class="tintuc-main row">
+        <!-- tintuc-left -->
+        <div class="tintuc-left col-md-8">
+            <div class="tintuc-content">
+                <h3>@Model.name</h3>
+                @*<div><img src="~/Assets/Upload/News/@Model.photo" style="width:100%;" /></div>*@
+                <div style="margin-top:10px;">@Html.Raw(Model.description)</div>
+                <div style="margin-top:10px;">@Html.Raw(Model.content)</div>
+            </div>
+        </div>
+        <!-- tintuc-right -->
+        <div class="tintuc-right col-md-4" style="margin-bottom:50px;">
+            <div class="baivietmoi tincongnghe">
+                <h5>BÀI VIẾT MỚI</h5>
+                <div class="border1"></div>
+                @{
+                    DataTable listNews = ListNews();
+                }
+                @foreach (DataRow item in listNews.Rows)
+                {
+                    <div class="baivietmoi-item col-md-10">
+                        <a href="/News/Detail/@item["id"]">
+                            <img src="~/Assets/Upload/News/@item["photo"]" alt="">
+                            <div class="tincongnghe-tomtat">@item["name"]</div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+            <div class="baiviethot baivietmoi tincongnghe">
+                <h5 class="col-md-12">BÀI VIẾT NHIỀU NGƯỜI XEM</h5>
+                <div class="border1"></div>
+                @{
+                    List<News> listHotNews = HotNews();
+                }
+                @foreach (News itemHot in listHotNews)
+                {
+                    <div class="baiviethot-item col-md-11">
+                        <a href="/News/Detail/@itemHot.id">
+                            <img src="~/Assets/Upload/News/@itemHot.photo" alt="">
+                            <div class="tincongnghe-tomtat">@itemHot.name</div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

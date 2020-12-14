@@ -1,0 +1,38 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+
+<div class="container dangky">
+    @if (Request.QueryString["notify"] != null && Request.QueryString["notify"] == "invalid")
+    {
+        <div class="alert alert-danger">Đăng nhập không thành công</div>
+    }
+    else
+    {
+        <p>Nếu bạn có tài khoản xin vui lòng đăng nhập</p>
+    }
+    <div class="panel panel-primary row" style="margin-bottom:30px;">
+        <div class="panel-body col-md-6">
+            <form action="" method="post">
+                @Html.AntiForgeryToken()
+                <h3 class="title">Đăng nhập tài khoản</h3>
+                <div class="form-group">
+                    <label>Email:<b id="req">*</b></label>
+                    <input type="email" class="form-control" name="email" required="">
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu:<b id="req">*</b></label>
+                    <input type="password" class="form-control" name="password" required="">
+                </div>
+                <input type="submit" class="btn btn-primary" value="Đăng nhập">
+            </form>
+        </div>
+        <div class="panel-body col-md-5 dangky-right">
+            <div class="list-group-item-secondary">
+                <p>Nếu chưa có tài khoản vui lòng đăng ký tài khoản để có thể nhận những ưu đãi của cửa hàng</p>
+                <a href="/Account/Register" class="btn btn-success">Đăng ký</a>
+            </div>
+        </div>
+    </div>
+</div>

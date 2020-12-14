@@ -1,0 +1,372 @@
+﻿@using tony_compurter.Models
+
+@functions{
+    DataContext db = new DataContext();
+    //lay BhOnline
+    public List<BhOnline> GetBhOnlines()
+    {
+        List<BhOnline> listRecord = db.BhOnlines.Where(tbl => tbl.parent_id == 0).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+    //lay cac danh muc BhOnline cap 1
+    public List<BhOnline> GetBhOnlinesSub(int _id)
+    {
+        List<BhOnline> listRecord = db.BhOnlines.Where(tbl => tbl.parent_id == _id).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+    //lay Bhdn
+    public List<Bhdn> GetBhdns()
+    {
+        List<Bhdn> listRecord = db.Bhdns.Where(tbl => tbl.parent_id == 0).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+    //lay cac danh muc Bhdn cap 1
+    public List<Bhdn> GetBhdnsSub(int _id)
+    {
+        List<Bhdn> listRecord = db.Bhdns.Where(tbl => tbl.parent_id == _id).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+}
+
+<!-- menu-top -->
+<div class="menu-top container-fluid">
+    <i class="fa fa-share-alt" aria-hidden="true"></i>
+    <ul class="nav">
+        <li class="nav-item"><a class="nav-link" href="/Contact/Index">Hệ thống Showroom</a></li>
+        <li class="nav-item"><a class="nav-link test bh-on">Bán hàng Online</a></li>
+        <li class="nav-item"><a class="nav-link test bh-dn">Bán hàng doanh nghiệp</a></li>
+        <li class="nav-item"><a class="nav-link" href="/News/Index">Tin Tức</a></li>
+    </ul>
+</div>
+<div class="thongtin">
+    <div class="thongtin-bhonline">
+        <h5>HỖ TRỢ TOÀN QUỐC</h5>
+        <div class="row">
+            @{
+                List<BhOnline> listBhOnline = GetBhOnlines();
+            }
+            @foreach (BhOnline item in listBhOnline)
+            {
+                <div class="thongtin-content col-md-4">
+                    <h6>@item.name</h6>
+                    @{
+                        List<BhOnline> listBhOnlineSub = GetBhOnlinesSub(item.id);
+                    }
+                    @foreach (BhOnline itemSub in listBhOnlineSub)
+                    {
+                         <p><span style="color: blue;"><i class="fa fa-commenting-o" aria-hidden="true"></i> Zalo</span> <span style="color: red;">@itemSub.name</span></p>
+                    }
+
+                </div>
+            }
+        </div>
+    </div>
+    <div class="thongtin-bhdn">
+        <h5>KHÁCH HÀNG DOANH NGHIỆP</h5>
+        <div class="row">
+            @{
+                List<Bhdn> listBhdn = GetBhdns();
+            }
+            @foreach (Bhdn item in listBhdn)
+            {
+                <div class="thongtin-content col-md-4">
+                    <h6>@item.name</h6>
+                    @{
+                        List<Bhdn> listBhdnSub = GetBhdnsSub(item.id);
+                    }
+                    @foreach (Bhdn itemSub in listBhdnSub)
+                    {
+                        <p><span style="color: blue;"><i class="fa fa-commenting-o" aria-hidden="true"></i> Zalo</span> <span style="color: red;">@itemSub.name</span></p>
+                    }
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- banner -->
+<div class="banner container-fluid">
+    @{
+        List<CartItem> Cart = new List<CartItem>();
+        Cart = Session["Cart"] as List<CartItem>;
+        int number = 0;
+    }
+    @if (this.Session["Cart"] != null)
+    {
+        foreach (var item in Cart)
+        {
+            number++;
+        }
+    }
+    <div class="banner-top-responsive fixed-top" style="background: white; z-index: 400;">
+        <div class="category-res">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+        <div class="logo-res"><a href="/Home/Index"><img src="~/Assets/Frontend/images/logo.jpg" alt=""></a></div>
+        <div class="news">
+            <a href="/News/Index"><i class="fa fa-newspaper-o" aria-hidden="true"></i></a>
+        </div>
+        <div class="shop-res">
+            <div class="shopping-res">
+                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                <p>@number</p>
+            </div>
+            @if (number == 0)
+            {
+                <div class="giohang-res" style="height:100px; padding:40px;border:1px solid #bbbbbb">
+                    không có sản phẩm nào
+                </div>
+            }
+            else
+            {
+                <div class="giohang-res">
+                    <ul>
+                        @if (this.Session["Cart"] != null)
+                        {
+                            foreach (var item in Cart)
+                            {
+                                <li>
+                                    <a href="/Product/Detail/@item.id">
+                                        <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                        <div class="giohang-noidung">
+                                            <p class="tomtat">@item.title</p>
+                                            <p class="gia">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                        </div>
+                                    </a>
+                                    <a href="/Cart/Remove/@item.id" class="xoa">x</a>
+                                </li>
+
+                            }
+                        }
+                    </ul>
+                    <div style="border-top: 1px solid #bbbbbb;width: 80%;margin: 0px auto;"></div>
+                    <a class="btn btn-primary" href="/Cart/Checkout" role="button">Thanh toán</a>
+                </div>
+            }
+        </div>
+    </div>
+    <script language="javascript">
+        $(document).ready(function () {
+            $("#key").keypress(function (event) {
+                if (event.keyCode == 13 || event.which == 13) {
+                    event.preventDefault();  //Không cho submit from bạn có thể bỏ nều k cần
+                    //Các câu lệnh Logic sẽ thực hiện ở đây
+                    var _key = document.getElementById("key").value;
+                    //di chuyen den mot trang khac
+                    location.href = "/Product/Search?key=" + _key;
+                }
+            });
+        });
+        function search() {
+            var _key = document.getElementById("key").value;
+            //di chuyen den mot trang khac
+            location.href = "/Product/Search?key=" + _key;
+        }
+
+        function searchForm() {
+            $(document).ready(function () {
+
+                //---
+                //lay gia tri cua textbox
+                var _key = document.getElementById("key").value;
+                //hien thi the html co class=smart-search
+                if (_key != "") {
+                    document.getElementById("smart-search").setAttribute("style", "display:block");
+                    //---
+                    $.ajax({
+                        url: "/Product/AjaxSearch?key=" + _key,
+                        success: function (result) {
+                            //result = "Hello";
+                            //alert(result);
+                            //clear cac the li trong id=smart-search
+                            $("#smart-search ul").empty();
+                            //them ket qua moi tim kiem
+                            $("#smart-search ul").append(result);
+                        }
+                    });
+                }
+                //---
+                else {
+                    document.getElementById("smart-search").setAttribute("style", "display:none");
+                }
+                //---
+            });
+        }
+
+    </script>
+
+    <style>
+        .sticky {
+            position: fixed;
+            top: -20px;
+            padding: 0 150px;
+            width: 100%;
+            z-index: 200;
+            box-shadow: 2px 2px 5px #aaaaaa, -2px -2px 5px #aaaaaa;
+        }
+    </style>
+    <div class="banner-top d-flex" id="myHeader">
+        <div class="logo"><a href="/Home/Index"><img src="~/Assets/Frontend/images/logo.jpg" alt=""></a></div>
+        <!-- search -->
+        <div class="search" style="position:relative;">
+            <div class="active-cyan-4 mb-4">
+                <input class="form-control" type="text" onkeyup="searchForm();" autocomplete="off" placeholder="Search" id="key" aria-label="Search">
+            </div>
+            <i class="fa fa-search" onclick="search()"></i>
+            <div id="smart-search">
+                <ul>
+                </ul>
+            </div>
+        </div>
+        <style>
+            #smart-search {
+                margin-top: 5px;
+                position: absolute;
+                top: 70%;
+                z-index: 200;
+                width: 100%;
+                max-height: 440px;
+                height: auto;
+                overflow: auto;
+                background: white;
+                display: none;
+            }
+
+                #smart-search img {
+                    width: 70px;
+                    border: 1px solid #dddddd;
+                    padding: 2px;
+                }
+
+                #smart-search ul li {
+                    border-bottom: 1px solid #dddddd;
+                    display: flex;
+                }
+        </style>
+
+        <!-- manage -->
+        <div class="manage d-flex">
+            <div class="buy-online">
+                <div><i class="fa fa-phone" aria-hidden="true"></i></div>
+                <p>Mua hàng Online</p>
+                <a href="#">1900.1903</a>
+            </div>
+            <style>
+                .login {
+                    position: relative;
+                }
+
+                .dangxuat {
+                    display: none;
+                    top: 45px;
+                    left: -20px;
+                    background: white;
+                    width: 250px !important;
+                    height: 95px;
+                    position: absolute;
+                    z-index: 400;
+                    border: 1px solid #cccccc;
+                    box-shadow: 2px 2px 3px #eeeeee, -2px -2px 3px #eeeeee;
+                }
+
+                    .dangxuat li {
+                        line-height: 30px;
+                        border-top: 1px solid #cccccc;
+                        padding-left: 20px;
+                    }
+            </style>
+            <div class="login">
+
+                @if (this.Session["customer_email"] == null)
+                {
+                    <i class=" fa fa-user-circle" aria-hidden="true"></i>
+                    <div>
+                        <a href="/Account/Register">Đăng ký</a><br>
+                        <a href="/Account/Login">Đăng nhập</a>
+                    </div>
+                }
+                else
+                {
+                    <i class=" fa fa-user-circle"  aria-hidden="true"></i>
+                    <div style="width:100%; overflow:hidden;padding-top:3px;padding-left:4px;">
+                        <a href="/Account/ThongTinCaNhan/@this.Session["customer_id"]"><span style="font-weight:bold; font-size:15px;">@this.Session["customer_name"]</span></a>
+                    </div>
+                    <div class="dangxuat">
+                        <ul>
+                            <li><a href="/Account/DonHang/@this.Session["customer_id"]">Quản lý đơn hàng</a></li>
+                            <li><a href="/Account/SuaThongTin/@this.Session["customer_id"]">Sửa thông tin</a></li>
+                            <li><a href="/Account/Logout">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                }
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $(".login").mousemove(function () {
+                        $(".dangxuat").attr("style", "display:block");
+                    });
+                    $(".login").mouseout(function () {
+                        $(".dangxuat").attr("style", "display:none");
+                    });
+                });
+            </script>
+            <div class="shop">
+                <div class="shopping">
+                    <div>
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        <p>@number</p>
+                    </div>
+                    <a href="/Cart/Index">Giỏ hàng</a>
+                </div>
+                @if (number == 0)
+                {
+                    <div class="giohang" style="height:100px; padding:40px">
+                        không có sản phẩm nào
+                    </div>
+                }
+                else
+                {
+                    <div class="giohang">
+                        <ul>
+                            @if (this.Session["Cart"] != null)
+                            {
+                                foreach (var item in Cart)
+                                {
+                                    <li>
+                                        <a href="/Product/Detail/@item.id">
+                                            <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                                            <div class="giohang-noidung">
+                                                <p class="tomtat">@item.title</p>
+                                                <p class="gia">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                                            </div>
+                                        </a>
+                                        <a href="/Cart/Remove/@item.id" class="xoa">x</a>
+                                    </li>
+
+                                }
+                            }
+                        </ul>
+                        <div style="border-top: 1px solid #bbbbbb;width: 80%;margin: 0px auto;"></div>
+                        <a class="btn btn-primary" href="/Cart/Checkout" role="button">Thanh toán</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onscroll = function () { myFunction() };
+
+    var header = document.getElementById("myHeader");
+    var sticky = header.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset > sticky) {
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
+    }
+        //
+</script>
+

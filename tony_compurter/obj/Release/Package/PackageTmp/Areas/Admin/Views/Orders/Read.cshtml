@@ -1,0 +1,79 @@
+﻿@{
+    //load file _Layout.cshtml vao day
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using tony_compurter.Models
+@model PagedList.IPagedList<Order>
+@using PagedList.Mvc
+
+@functions{
+    public DataContext db = new DataContext();
+    public string GetCustomerName(int _customer_id)
+    {
+        Customer record = db.Customers.Where(tbl => tbl.id == _customer_id).FirstOrDefault();
+        return record != null ? record.name : "";
+    }
+}
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Orders</div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Customer name</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th style="width:200px;"></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@GetCustomerName(item.customer_id)</td>
+                        <td>@item.date.ToString("ddMMyyyy")</td>
+                        <td>@String.Format("{0:N0}", item.price) VNĐ</td>
+                        <td>
+                            @if (item.status == 0)
+                            {
+                                <text><label class="label label-warning">Chưa giao hàng</label></text>
+                            }
+                            else if (item.status == 1)
+                            {
+                                <text><label class="label label-info">Đang giao hàng</label></text>
+                            }
+                            else if (item.status == 2)
+                            {
+                                <text><label class="label label-success">Đã giao hàng</label></text>
+                            }
+                            else if (item.status == 3)
+                            {
+                                <text><label class="label label-danger">Đã hủy</label></text>
+                            }
+                        </td>
+                        <td style="text-align:center;">
+                            <label class="label label-danger"><a href="/Admin/Orders/Detail/@item.id" style="color:white">Chi tiết</a></label>&nbsp;&nbsp;
+                            @if (item.status == 0)
+                            {
+                                <label class="label label-info"><a href="/Admin/Orders/Delivery/@item.id" style="color:white">Đang giao hàng</a></label>
+                            }
+                            @if (item.status == 1)
+                            {
+                                <label class="label label-success"><a href="/Admin/Orders/Sent/@item.id" style="color:white">Xác nhận giao hàng</a></label>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+            <style type="text/css">
+                .pagination {
+                    padding: 0px;
+                    margin: 0px;
+                }
+            </style>
+            @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Read", new { page, a = 1, b = 2 }))
+        </div>
+    </div>
+</div>
+
+

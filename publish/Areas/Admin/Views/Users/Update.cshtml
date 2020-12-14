@@ -1,0 +1,62 @@
+﻿
+<section class="content-header">
+    <h1>
+        Quản lý user
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"><a href="/Admin/Users/Read">Quản lý user</a></li>
+        <li class="active">Edit</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="col-md-12">
+        @if (Request.QueryString["notify"] != null && Request.QueryString["notify"] == "emailExists")
+        {
+            <div class="alert alert-danger">Email đã tồn tại!</div>
+        }
+        <div class="panel panel-primary">
+            <div class="panel-heading">Edit user</div>
+            <div class="panel-body">
+                <form method="post" action="">
+                    @* dat tinh nag bao mat *@
+                    @Html.AntiForgeryToken()
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Name</div>
+                        <div class="col-md-10">
+                            <input type="text" value="@if (Model != null){<text>@Model.name</text>}" name="name" class="form-control" required>
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Email</div>
+                        <div class="col-md-10">
+                            <input type="email" value="@if (Model != null){<text>@Model.email</text>}" name="email" class="form-control">
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2">Password</div>
+                        <div class="col-md-10">
+                            <input type="password" name="password" @if (Model != null) { <text> placeholder="Nhập password nếu muốn đổi" </text>  } else { <text> required</text>} class="form-control">
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                    <!-- rows -->
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10">
+                            <input type="submit" value="Process" class="btn btn-primary">
+                        </div>
+                    </div>
+                    <!-- end rows -->
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

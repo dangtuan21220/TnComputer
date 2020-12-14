@@ -1,0 +1,93 @@
+﻿@using tony_compurter.Models
+@functions{
+    DataContext db = new DataContext();
+    public List<Category> GetCategories()
+    {
+        List<Category> listRecord = db.Categories.Where(tbl => tbl.parent_id == 0).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+    //lay cac danh muc cap 1
+    public List<Category> GetCategoriesSub(int _id)
+    {
+        List<Category> listRecord = db.Categories.Where(tbl => tbl.parent_id == _id).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+}
+
+
+<header class="container-fluid">
+    @Html.Partial("~/Views/Shared/_HeaderChung.cshtml")
+    <!-- danhmuc -->
+    <div class="danhmuc">
+        <div class="danhmuc-sp">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+            <div>DANH MỤC SẢN PHẨM</div>
+            <div class="danhmuc-sp-category category">
+                <ul class="nav flex-column">
+                    @{
+                        List<Category> listCategories = GetCategories();
+                    }
+                    @foreach (Category item in listCategories)
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/Product/Category/@item.id">
+                                @Html.Raw(item.icon)
+                                @item.name
+                                <ul class="sub-menu">
+                                    @{
+                                        List<Category> listCategoriesSub = GetCategoriesSub(item.id);
+                                    }
+                                    @foreach (Category itemSub in listCategoriesSub)
+                                    {
+                                        <li><a href="/Product/Category/@itemSub.id">@itemSub.name</a></li>
+                                    }
+                                </ul>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!-- gioithieu -->
+        <div class="gioithieu">
+            <ul class="nav container-fluid">
+                <li class="nav-item">
+                    <img src="~/Assets/Frontend/images/save-money-2.png" alt="">
+                    <p>
+                        <b>CAM KẾT</b><br>
+                        Gía Tốt nhât
+                    </p>
+                </li>
+                <li class="nav-item">
+                    <img src="~/Assets/Frontend/images/present.png" alt="">
+                    <p>
+                        <b>MIỄN PHÍ</b><br>
+                        Vẫn Chuyển
+                    </p>
+                </li>
+                <li class="nav-item">
+                    <img src="~/Assets/Frontend/images/buy.png" alt="">
+                    <p>
+                        <b>THANH TOÁN</b><br>
+                        Khi Nhận Hàng
+                    </p>
+                </li>
+                <li class="nav-item doitra">
+                    <img src="~/Assets/Frontend/images/reload.png" alt="">
+                    <p>
+                        <b>ĐỔI TRẢ HÀNG</b><br>
+                        Trong 3 Ngày
+                    </p>
+                </li>
+                <li class="nav-item">
+                    <img src="~/Assets/Frontend/images/repair-garage.png" alt="">
+                    <p>
+                        <b>BẢO HÀNH</b><br>
+                        Tại nơi sử dụng
+                    </p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</header>

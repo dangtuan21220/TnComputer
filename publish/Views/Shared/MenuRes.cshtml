@@ -1,0 +1,81 @@
+﻿@using tony_compurter.Models
+@functions{
+    DataContext db = new DataContext();
+    public List<Category> GetCategories()
+    {
+        List<Category> listRecord = db.Categories.Where(tbl => tbl.parent_id == 0).OrderBy(tbl => tbl.id).ToList();
+        return listRecord;
+    }
+
+}
+
+
+<div class="menu-res d-flex fixed-top">
+    <!-- menu-res-left -->
+    <div class="menu-res-left">
+
+        @if (this.Session["customer_email"] == null)
+        {
+            <div class="login-res">
+                <a href="/Account/Register">Đăng ký</a>
+                <a href="/Account/Login">Đăng nhập</a>
+            </div>
+        }
+        else
+        {
+            <div class="login-res" style="line-height:30px;">
+                <p style="color:red;padding:0;margin:0;line-height:20px;font-size:20px">@this.Session["customer_name"]</p>
+                <a href="/Account/Logout">Đăng xuất</a>
+            </div>
+
+        }
+
+        <script language="javascript">
+            $(document).ready(function () {
+                $("#key_res").keypress(function (event) {
+                    if (event.keyCode == 13 || event.which == 13) {
+                        event.preventDefault();  //Không cho submit from bạn có thể bỏ nều k cần
+                        //Các câu lệnh Logic sẽ thực hiện ở đây
+                        var _key = document.getElementById("key_res").value;
+                        //di chuyen den mot trang khac
+                        location.href = "/Product/Search?key=" + _key;
+                    }
+                });
+            });
+            function search() {
+                var _key = document.getElementById("key_res").value;
+                //di chuyen den mot trang khac
+                location.href = "/Product/Search?key=" + _key;
+            }
+        </script>
+
+        <div class="search-res">
+            <div class="active-cyan-4 mb-4">
+                <input class="form-control" id="key_res" type="text" placeholder="Search" aria-label="Search">
+            </div>
+            <i class="fa fa-search" onclick="search()" style="cursor:pointer;" aria-hidden="true"></i>
+        </div>
+        <div class="categories-res ">
+            <div class="categories-res-title d-flex">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+                <div>DANH MỤC SẢN PHẨM</div>
+            </div>
+            <ul class="nav flex-column">
+                @{
+                    List<Category> listCategories = GetCategories();
+                }
+                @foreach (Category item in listCategories)
+                {
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/Product/Category/@item.id">
+                            @Html.Raw(item.icon)
+                            @item.name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!-- menu-res-right -->
+    <div class="menu-res-right"></div>
+</div>

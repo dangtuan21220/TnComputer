@@ -1,0 +1,68 @@
+﻿
+@{
+    //load file layout vao day
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+
+<div class="content">
+    <div class="content-title">
+        <a href="/Home/Index" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href="" style="color: #234a76;">Giỏ hàng của bạn</a>
+    </div>
+    <div class="conten-cart">
+        <form action="/Cart/Update" method="post">
+            <div class="table-responsive">
+                <table class="table table-responsive-xl">
+                    <thead class="table-active">
+                        <tr>
+                            <th class="image">Ảnh sản phẩm</th>
+                            <th class="name">Tên sản phẩm</th>
+                            <th class="price">Giá bán lẻ</th>
+                            <th class="quantity">Số lượng</th>
+                            <th class="price">Thành tiền</th>
+                            <th class="delete">Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><img src="~/Assets/Upload/Products/@item.photo" class="img-responsive" /></td>
+                                <td><a href="/Product/Detail/@item.id">@item.title</a></td>
+                                <td> @string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ </td>
+                                <td><input type="number" id="qty" min="1" class="input-control" value="@item.number" name="product_@item.id" required=""></td>
+                                <td><p><b>@string.Format("{0:N0}", (item.price - (item.price * item.discount) / 100) * item.number)đ</b></p></td>
+                                <td><a href="/Cart/Remove/@item.id" data-id="2479395"><i class="fa fa-trash"></i></a></td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <a href="/Cart/Destroy" class="btn btn-secondary pull-left">Xóa toàn bộ</a>
+                                <a href="/Home" class="btn btn-danger pull-right">Tiếp tục mua hàng</a>
+                                <input type="submit" class="update btn btn-primary pull-right" value="Cập nhật">
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </form>
+        <div class="total-cart">
+            Tổng tiền thanh toán:
+            @{
+                ShoppingCart objCart = new ShoppingCart();
+            }
+            @string.Format("{0:N0}", objCart.CartTotal())đ <br><br>
+            <a href="/Cart/Checkout" class="btn btn-success thanhtoan">Thanh toán</a>
+        </div>
+    </div>
+</div>

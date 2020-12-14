@@ -1,0 +1,61 @@
+﻿
+@{
+    //load file layout vao day
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+
+@functions{
+    //khai bao doi tuong thao tac csdl
+    DataContext db = new DataContext();
+    public Product GetProduct(int _product_id)
+    {
+        Product record = db.Products.Where(tbl => tbl.id == _product_id).FirstOrDefault();
+        return record;
+    }
+}
+<div class="content">
+    <div class="content-title">
+        <a href="/Home/Index" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a href="" style="color: #234a76;">Sản phẩm yêu thích</a>
+    </div>
+    <div class="conten-cart">
+        <div class="table-responsive">
+            <table class="table table-responsive-xl" style="width:80%; margin:auto;">
+                <thead class="table-active">
+                    <tr>
+                        <th class="image">Ảnh sản phẩm</th>
+                        <th class="name">Tên sản phẩm</th>
+                        <th class="price">Giá bán lẻ</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Session["WishListId"] != null)
+                    {
+                        List<int> _WishListId = Session["WishListId"] as List<int>;
+                        foreach (var id in _WishListId)
+                        {
+                            Product item = GetProduct(id);
+                            <tr>
+                                <td><img src="~/Assets/Upload/Products/@item.photo" class="img-responsive" /></td>
+                                <td><a href="/Product/Detail/@item.id">@item.title</a></td>
+                                <td> @string.Format("{0:N0}", item.price)₫ </td>
+                                
+                            </tr>
+                        }
+                    }
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+

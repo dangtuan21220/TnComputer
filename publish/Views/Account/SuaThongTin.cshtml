@@ -1,0 +1,82 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+@functions{
+    public DataContext db = new DataContext();
+
+    
+}
+
+<div class="content" style="margin-bottom:50px;">
+    <div class="content-title">
+        <a href="trangchu.html" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a style="color: #234a76;">Quản lý tài khoản</a>
+    </div>
+    <div class="quanlytk d-flex">
+        <div class="quanly-left">
+            <div class="quanly-admin d-flex">
+                <i class=" fa fa-user-circle" aria-hidden="true"></i>
+                <h6 style="margin-top: 21px;margin-left: 15px;font-size: 18px;">Đặng Văn Tuấn</h6>
+            </div>
+            <div class="quanly-danhmuc">
+                <ul>
+                    <li><a href="/Account/ThongTinCaNhan/@Model.id">Thông tin cá nhân</a></li>
+                    <li><a href="/Account/DonHang/@Model.id">Đơn hàng của bạn</a></li>
+                    <li><a href="/Account/SuaThongTin/@Model.id">Sửa thông tin</a></li>
+                    <li><a href="/Account/Logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="quanly-right">
+            <div><h4>Sửa thông tin</h4></div>
+
+            <form method="post" action="" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Họ Tên</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="name" value="@if(Model != null){<text>@Model.name</text>}" class="form-control" id="inputEmail3">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Số điện thoại</label>
+                    <div class="col-sm-10">
+                        <input type="tel" name="phone" value="@if(Model != null){<text>@Model.phone</text>}" class="form-control" id="inputEmail3">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Địa chỉ</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="address" value="@if(Model != null){<text>@Model.address</text>}" class="form-control" id="inputEmail3">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" name="email" value="@if(Model != null){<text>@Model.email</text>}" class="form-control" id="inputEmail3">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="password" @if (Model != null) { <text> placeholder="Nhập password nếu muốn đổi" </text>  } else { <text> required</text> } class="form-control" id="inputPassword3">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <input type="submit" value="Lưu" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+

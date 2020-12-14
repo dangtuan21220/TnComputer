@@ -1,0 +1,97 @@
+﻿@{
+    //load file _Layout.cshtml vao day
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using tony_compurter.Models
+@* su dung doi tuong DataTable, DataRow *@
+@using System.Data
+@* sung dung file Database.cs de thuc hien full sql *@
+@using tony_compurter.Areas.Admin.Class
+@* viet cac ham o day *@
+@functions{
+    //tao doi tuong thao tac csdl
+    public DataContext db = new DataContext();
+    //lay ten danh muc
+    public string GetCategoryName(int _category_id)
+    {
+        Category record = db.Categories.Where(tbl => tbl.id == _category_id).FirstOrDefault();
+        return record != null ? record.name : "";
+    }
+    Product GetProduct(int _product_id)
+    {
+        Product record = db.Products.Where(tbl => tbl.id == _product_id).FirstOrDefault();
+        return record != null ? record : new Product();
+    }
+    DataRow GetCustomer(int _order_id)
+    {
+        DataRow dr = Database.FirstDataRow("select * from customers where id = (select TOP 1 customer_id from Orders where id = " + _order_id + ")");
+        //Response.Write("select * from customers where id = (select TOP 1 customer_id from Orders where id = " + _order_id + ")");
+        return dr;
+    }
+}
+<div class="col-md-12">
+    <div style="margin-bottom:5px;">
+        <a href="#" onclick="history.go(-1);" class="btn btn-primary">Back</a>
+    </div>
+    @{
+        int _order_id = Convert.ToInt32(ViewBag.order_id);
+        DataRow drCustomer = GetCustomer(_order_id);
+    }
+    <div class="panel panel-primary">
+        <div class="panel-heading">Thông tin khách hàng</div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td style="width:150px;">Họ tên</td>
+                    <td>@drCustomer["name"]</td>
+                </tr>
+                <tr>
+                    <td style="width:150px;">Email</td>
+                    <td>@drCustomer["email"]</td>
+                </tr>
+                <tr>
+                    <td style="width:150px;">Điện thoại</td>
+                    <td>@drCustomer["phone"]</td>
+                </tr>
+                <tr>
+                    <td style="width:150px;">Địa chỉ</td>
+                    <td>@drCustomer["address"]</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Chi tiết đơn hàng</div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th style="width:100px;">Photo</th>
+                    <th>name</th>
+                    <th style="width:150px;">Price</th>
+                    <th style="width:150px;">Quantity</th>
+                    <th style="width:200px;">Category</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    Product _recordProduct = GetProduct(item.product_id);
+                    <tr>
+                        <td>
+                            @if (File.Exists(Server.MapPath("~/Assets/Upload/Products/" + _recordProduct.photo)))
+                            {
+                                <img src="~/Assets/Upload/Products/@_recordProduct.photo" style="width:100px;" />
+                            }
+                        </td>
+                        <td style="line-height:100px;">@_recordProduct.title</td>
+                        <td style="line-height:100px;" class="text-center">@String.Format("{0:N0}", item.price * item.quantity) VNĐ</td>
+                        <td style="line-height:100px;" class="text-center">@item.quantity</td>
+                        <td style="line-height:100px;">@GetCategoryName(_recordProduct.category_id)</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+

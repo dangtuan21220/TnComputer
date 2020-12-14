@@ -1,0 +1,56 @@
+﻿
+@using tony_compurter.Models
+@* khai bao kieu du lieu cho bien Model(bien nay tu controller ra) *@
+@model PagedList.IPagedList<User>
+@* dong nay de khai bao doi tg PageListPaper va dtg Html *@
+@using PagedList.Mvc
+
+<section class="content-header">
+    <h1>
+        Quản lý user
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Quản lý user</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="col-md-12">
+        <div style="margin-bottom:5px;">
+            <a href="/Admin/Users/Create" class="btn btn-primary">Create user</a>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">List User</div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>Fullname</th>
+                        <th>Email</th>
+                        <th style="width:100px;"></th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.name</td>
+                            <td>@item.email</td>
+                            <td style="text-align:center;">
+                                <a href="/Admin/Users/Update/@item.id">Edit</a>&nbsp;
+                                <a href="/Admin/Users/Delete/@item.id" onclick="return window.confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                <style type="text/css">
+                    .pagination {
+                        padding: 0px;
+                        margin: 0px;
+                    }
+                </style>
+                @Html.PagedListPager(Model, page => Url.Action("Read", new { page }))
+            </div>
+        </div>
+    </div>
+</section>
+

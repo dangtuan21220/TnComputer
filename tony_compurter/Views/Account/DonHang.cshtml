@@ -1,0 +1,100 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+@functions{
+    public DataContext db = new DataContext();
+
+    public DataTable GetOrder(int _customer_id)
+    {
+        DataTable dt = Database.ListDataTable("select * From Products inner join OrderDetails on OrderDetails.product_id = Products.id inner join Orders on Orders.id = OrderDetails.order_id where customer_id =" + _customer_id);
+        return dt;
+    }
+}
+
+<div class="content" style="margin-bottom:50px;">
+    <div class="content-title">
+        <a href="trangchu.html" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a style="color: #234a76;">Quản lý tài khoản</a>
+    </div>
+    <div class="quanlytk d-flex">
+        <div class="quanly-left">
+            <div class="quanly-admin d-flex">
+                <i class=" fa fa-user-circle" aria-hidden="true"></i>
+                <h6 style="margin-top: 21px;margin-left: 15px;font-size: 18px;">Đặng Văn Tuấn</h6>
+            </div>
+            <div class="quanly-danhmuc">
+                <ul>
+                    <li><a href="/Account/ThongTinCaNhan/@ViewBag.id">Thông tin cá nhân</a></li>
+                    <li><a href="/Account/DonHang/@ViewBag.id">Đơn hàng của bạn</a></li>
+                    <li><a href="/Account/SuaThongTin/@ViewBag.id">Sửa thông tin</a></li>
+                    <li><a href="/Account/Logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="quanly-right">
+            <div><h4>Đơn hàng của bạn</h4></div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th scope="col" style="width:45%;">Sản phẩm</th>
+                        <th scope="col" style="width:15%;">Ngày mua</th>
+                        <th scope="col" style="width:15%;">Giá</th>
+                        <th scope="col" style="width:17%;">Trạng thái</th>
+                        <th scope="col" style="width:17%;">Hủy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        DataTable listOrder = GetOrder(ViewBag.id);
+                    }
+                    @foreach (DataRow item in listOrder.Rows)
+                    {
+                    <tr style="text-align:center;">
+                        <th scope="row">@item["title"]</th>
+                        <td>@item["date"].ToString()</td>
+                        <td>@string.Format("{0:N0}", item["price"])</td>
+                        <td>
+                            @if (Convert.ToInt32(item["status"]) == 0)
+                            {
+                                <label class="badge badge-primary">Chưa giao hàng</label>
+                            }
+                            @if (Convert.ToInt32(item["status"]) == 1)
+                            {
+                                <label class="badge badge-danger">Đang giao hàng</label>
+                            }
+                            @if (Convert.ToInt32(item["status"]) == 2)
+                            {
+                                <label class="badge badge-success">Đã giao hàng</label>
+                            }
+                            @if (Convert.ToInt32(item["status"]) == 3)
+                            {
+                                <label class="badge badge-danger">Đã hủy</label>
+                            }
+                        </td>
+                        @if (Convert.ToInt32(item["status"]) == 0 || Convert.ToInt32(item["status"]) == 1)
+                        {
+                            <td><a href="/Account/HuyDonHang/@item["order_id"]"><i class="fa fa-trash"></i></a></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+

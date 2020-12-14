@@ -1,0 +1,64 @@
+﻿
+@using tony_compurter.Models
+@* khai bao kieu du lieu cho bien Model (bien nay truyen tu controller ra) *@
+@model PagedList.IPagedList<News>
+@* dong nay de khai bao ham PagedListPager vao doi tuong Html *@
+@using PagedList.Mvc
+@*@Server.MapPath("~/Upload/News")*@
+
+<section class="content-header">
+    <h1>
+        Tin tức
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Tin tức</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="col-md-12">
+        <div style="margin-bottom:5px;">
+            <a href="/Admin/News/Create" class="btn btn-primary">Create news</a>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">List news</div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th style="width:100px;">Image</th>
+                        <th>Title</th>
+                        <th style="width: 100px;">Hot news</th>
+                        <th style="width:100px;"></th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/Assets/Upload/News/@item.photo" style="width:100px;" />
+                            </td>
+                            <td>@item.name</td>
+                            <td style="text-align: center;">
+                                @if (item.hot == 1)
+                                {
+                                    <span class="">@item.hot</span>
+                                }
+                            </td>
+                            <td style="text-align:center;">
+                                <a href="/Admin/News/Update/@item.id">Edit</a>&nbsp;
+                                <a href="/Admin/News/Delete/@item.id" onclick="return window.confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <style type="text/css">
+                    .pagination {
+                        padding: 0px;
+                        margin: 0px;
+                    }
+                </style>
+                @Html.PagedListPager(Model, page => Url.Action("Read", new { page }))
+            </div>
+        </div>
+    </div>
+</section>

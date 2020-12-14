@@ -1,0 +1,78 @@
+﻿
+@using tony_compurter.Models
+@* khai bao kieu du lieu cho bien Model (bien nay truyen tu controller ra) *@
+@model PagedList.IPagedList<Product>
+@* dong nay de khai bao ham PagedListPager vao doi tuong Html *@
+@using PagedList.Mvc
+@*@Server.MapPath("~/Upload/Product")*@
+@using System.Data
+@using tony_compurter.Areas.Admin.Class
+@functions{
+    DataContext db = new DataContext();
+    public string GetCategory(int _id)
+    {
+        List<Parameter> parameters = new List<Parameter>();
+        parameters.Add(new Parameter() { name = "@id", value = _id.ToString() });
+        DataRow dr = Database.FirstDataRow("select * from Categories where id = @id", parameters);
+        return dr["name"].ToString();
+    }
+}
+
+<section class="content-header">
+	<h1>
+		Danh sách sản phẩm
+		<small>Control panel</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active">Danh sách sản phẩm</li>
+	</ol>
+</section>
+<section class="content">
+	<div class="col-md-12">
+		<div style="margin-bottom:5px;">
+			<a href="/Admin/Products/Create" class="btn btn-primary">Create Product</a>
+		</div>
+		<div class="panel panel-primary">
+			<div class="panel-heading">List Product</div>
+			<div class="panel-body">
+				<table class="table table-bordered table-hover">
+                    <tr>
+                        <th style="width:100px;">Image</th>
+                        <th>Name</th>
+                        <th style="width:400px"></th>
+                        <th style="width:200px"></th>
+                        <th style="width: 100px;">Product_type</th>
+                        <th style="width:150px;"></th>
+                    </tr>
+					@foreach (var item in Model)
+					{
+                <tr>
+                    <td>
+                        <img src="~/Assets/Upload/Products/@item.photo" style="width:100px;" />
+                    </td>
+                    <td>@item.name</td>
+                    <td>@item.title</td>
+                    <td>@GetCategory(item.category_id)</td>
+                    <td style="text-align: center;">
+                        <span>@item.product_type</span>
+                    </td>
+                    <td style="text-align:center;">
+                        <a href="/Admin/Products/Images/@item.id">Images</a>&nbsp;&nbsp;
+                        <a href="/Admin/Products/Update/@item.id">Edit</a>&nbsp;
+                        <a href="/Admin/Products/Delete/@item.id" onclick="return window.confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+					}
+				</table>
+				<style type="text/css">
+					.pagination {
+						padding: 0px;
+						margin: 0px;
+					}
+				</style>
+				@Html.PagedListPager(Model, page => Url.Action("Read", new { page }))
+			</div>
+		</div>
+	</div>
+</section>

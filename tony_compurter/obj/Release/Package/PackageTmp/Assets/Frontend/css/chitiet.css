@@ -1,0 +1,630 @@
+/* content-chitet */
+.content-chitiet-title {
+    width: 76%;
+    margin: 25px auto;
+}
+
+h5 {
+    width: 78%;
+    font-size: 20px;
+    color: rgb(201, 59, 59);
+    margin: 25px auto;
+}
+
+.thongtinsp {
+    display: flex;
+}
+
+.content-chitiet-main {
+    width: 80%;
+    margin: auto;
+    margin-top: 25px;
+    /* border: 1px solid black; */
+}
+
+/* thongtinsp */
+.thongtinsp {
+    margin-top: 15px;
+}
+/* thongtinsp-img */
+.thongtinsp-img {
+    width: 28%;
+    margin: 0px 1.4% !important;
+}
+
+    .thongtinsp-img .box img {
+        width: 99%;
+    }
+
+    .thongtinsp-img .sub img {
+        width: 90px;
+        float: left;
+        border: 1px solid #dddddd;
+        margin: 10px;
+    }
+
+/* thongtinsp-solieu */
+.thongtinsp-solieu {
+    width: 46%;
+    margin-left: 1%;
+}
+
+    .thongtinsp-solieu p {
+        font-size: 15px;
+        margin-right: 20px;
+    }
+
+.thongso-sp {
+    margin-top: 10px;
+    padding-bottom: 15px;
+    font-size: 17px;
+    border-bottom: 1px solid #dddddd;
+}
+
+    .thongso-sp ul {
+        list-style: square;
+        font-size: 14px;
+        margin: 8px 30px;
+    }
+/* baohanh-gia */
+.baohanh {
+    margin: 15px 0px;
+    font-size: 16px;
+}
+
+    .baohanh .gia {
+        width: 99%;
+        height: 140px;
+        background: #eeeeee;
+        border-right: 3px;
+    }
+
+        .baohanh .gia b {
+            font-size: 24px;
+            margin-left: 10%;
+        }
+
+        .baohanh .gia p {
+            margin-left: 8%;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+.hot {
+    margin-top: 20px;
+}
+
+    .hot p {
+        font-size: 13px;
+    }
+
+    .hot span {
+        color: white;
+        padding: 0px 12px 3px 12px;
+        background: #243a76;
+        border-radius: 2px;
+    }
+
+.muahang {
+    width: 100%;
+}
+
+.datmuangay, .themvaogio {
+    width: 49%;
+    height: 70px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 70px;
+}
+
+.datmuangay {
+    background: #ed1b24;
+    margin-right: 1%;
+}
+
+.themvaogio {
+    background: #fa9f2c;
+}
+
+.muahang a:hover {
+    text-decoration: none;
+}
+
+.datmuangay:hover {
+    background: #ec454d;
+}
+
+.themvaogio:hover {
+    background: #eca752;
+}
+/* thongtinsp-chinhsach */
+.thongtinsp-chinhsach {
+    width: 21%;
+    margin: 70px 1%;
+}
+
+.yentam-title, .chinhsachgiaohang-title {
+    height: 40px;
+    background: #234a76;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.yentam-main, .chinhsachgiaohang-main {
+    border: 1px solid #dddddd;
+    border-radius: 0 0 5px 5px;
+}
+
+    .yentam-main ul, .chinhsachgiaohang-main ul {
+        font-size: 13px;
+        margin: 18px 1%;
+    }
+
+    .yentam-main li, .chinhsachgiaohang-main li {
+        line-height: 25px;
+    }
+
+.chinhsachgiaohang {
+    margin-top: 15px;
+}
+
+@media all and (max-width:1529px) {
+    .thongtinsp-chinhsach {
+        width: 19%;
+        margin-right: 0px;
+        margin-left: 0.5%;
+    }
+
+    .yentam-main ul, .chinhsachgiaohang-main ul {
+        font-size: 12px;
+    }
+}
+
+@media all and (max-width:1410px) {
+    .thongtinsp-chinhsach {
+        width: 18.5%;
+    }
+
+    .yentam-main ul, .chinhsachgiaohang-main ul {
+        font-size: 10px;
+    }
+}
+
+@media all and (max-width:1270px) {
+    .thongtinsp-chinhsach {
+        width: 0%;
+        display: none;
+    }
+
+    .thongtinsp-solieu {
+        width: 55%;
+    }
+
+    .thongtinsp-img {
+        width: 35%;
+    }
+}
+
+@media all and (max-width:1200px) {
+    .content-chitiet-title {
+        width: 80%;
+    }
+
+    .content-chitiet-main {
+        width: 90%;
+    }
+
+    h5 {
+        width: 85%;
+    }
+}
+
+@media all and (max-width:1000px) {
+    .content-chitiet-title {
+        width: 88%;
+    }
+
+    .content-chitiet-main {
+        width: 98%;
+    }
+
+    h5 {
+        width: 93%;
+    }
+
+    .gia b {
+        font-size: 23px;
+        margin-left: 8%;
+    }
+}
+
+@media all and (max-width:900px) {
+    .gia b {
+        margin-left: 3%;
+    }
+
+    .gia p {
+        margin-left: 3%;
+    }
+}
+
+@media all and (max-width:800px) {
+    .content-chitiet-title {
+        width: 22%;
+        margin: 20px auto;
+    }
+
+    h5 {
+        width: 90%;
+    }
+
+    .thongtinsp {
+        display: block;
+    }
+
+    .thongtinsp-img {
+        width: 98%;
+        margin: 0px 1%;
+    }
+
+        .thongtinsp-img .sub img {
+            width: 100px;
+        }
+
+    .thongtinsp-solieu {
+        width: 85%;
+        margin-top: 15px;
+        margin-left: 2% !important;
+    }
+}
+
+@media all and (max-width:650px) {
+    h5 {
+        font-size: 19px !important;
+    }
+
+    .thongtinsp-img .sub img {
+        width: 90px;
+    }
+}
+
+@media all and (max-width:586px) {
+    h5 {
+        font-size: 17px !important;
+    }
+
+    .thongtinsp-img .sub img {
+        width: 80px;
+        margin: 7px;
+    }
+
+    .hot p {
+        font-size: 12px;
+    }
+
+    .thongtinsp-solieu {
+        width: 88%;
+    }
+}
+
+@media all and (max-width:500px) {
+    h5 {
+        font-size: 16px !important;
+    }
+
+    .thongtinsp-img .sub img {
+        width: 70px;
+        margin: 5px;
+    }
+
+    .hot p {
+        font-size: 11px;
+    }
+
+    .gia b {
+        font-size: 18px;
+        margin-left: 1%;
+    }
+
+    .gia p {
+        margin-left: 1.5%;
+        font-size: 12px;
+    }
+
+    .datmuangay, .themvaogio {
+        height: 60px;
+        line-height: 60px;
+        font-size: 16px;
+    }
+}
+
+@media all and (max-width:420px) {
+    h5 {
+        font-size: 15px !important;
+    }
+
+    .thongtinsp-img .sub img {
+        width: 60px;
+        margin: 1px;
+    }
+
+    .content-chitiet-title {
+        width: 32%;
+        margin: 20px auto;
+    }
+
+    .thongtinsp-solieu {
+        width: 90%;
+    }
+
+    .datmuangay, .themvaogio {
+        height: 50px;
+        line-height: 50px;
+        font-size: 13px;
+    }
+}
+
+@media all and (max-width:350px) {
+    .datmuangay, .themvaogio {
+        height: 45px;
+        line-height: 45px;
+        font-size: 11px;
+    }
+}
+
+@media all and (max-width:300px) {
+    .datmuangay, .themvaogio {
+        height: 45px;
+        line-height: 45px;
+        font-size: 10px;
+    }
+}
+/* danhgiasp */
+.danhgiasp {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #dddddd;
+}
+
+.title-mota {
+    border-top: 2px solid #ec454d;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    padding: 5px 8px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.title-danhgia {
+    padding: 5px 8px;
+    border: 1px solid #cccccc;
+    border-top: 2px solid #cccccc;
+    border-bottom: none;
+    background: #eeeeee;
+    cursor: pointer;
+}
+/* danhgiasp-main */
+.danhgiasp-main {
+    border: 1px solid #cccccc;
+}
+/* danhgiachitiet */
+.danhgia {
+    width: 60%;
+}
+
+.danhgiachitiet h6 {
+    margin: 30px 20px;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 15px;
+}
+
+.danhgia-chamdiem {
+    display: flex;
+}
+
+.diemdanhgia {
+    margin: 0px 2%;
+    width: 92%;
+    height: 130px;
+    border: 1px solid #dddddd;
+}
+
+.danhgia .diemtb {
+    color: #ed1b24;
+    font-size: 40px;
+    margin: 30px 18%;
+}
+
+.danhgia .diemchitiet p {
+    margin-bottom: -3px;
+    font-size: 15px;
+}
+
+.nhanxet {
+    margin: 30px 20px;
+}
+
+    .nhanxet p {
+        line-height: 10px;
+        margin-left: 20px;
+    }
+/* chamdiem */
+.chamdiem {
+    width: 38%;
+    border: 1px solid red;
+    margin: 0px 1% 30px 1%;
+    padding: 20px;
+}
+
+.chamdiem-title {
+    font-weight: bold;
+}
+
+.danhgiacuaban {
+    margin-top: 20px;
+}
+.danhgiacuaban #star{
+    width:80px;
+}
+    .danhgiacuaban .fa-star {
+        color: black !important;
+        font-size:20px;
+    }
+
+@media all and (max-width:800px) {
+    .danhgia-chamdiem {
+        display: block;
+    }
+
+    .danhgia {
+        width: 100%;
+    }
+
+    .chamdiem {
+        width: 96%;
+        margin: auto;
+    }
+}
+
+@media all and (max-width:450px) {
+    .danhgia .diemtb {
+        margin: 25px 8%;
+        font-size: 30px;
+    }
+
+    .danhgia .diemchitiet p {
+        font-size: 13px;
+    }
+
+    .danhgiachitiet h6 {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+/* thongtinchitiet */
+.thongtinchitiet {
+    margin: 2%;
+    width: 96%;
+}
+
+    .thongtinchitiet h5 {
+        margin-left: 2%;
+    }
+
+.thongtinchitiet-main {
+    width: 96%;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+    .thongtinchitiet-main li {
+        width: 100%;
+        line-height: 100%;
+        border-bottom: 1px solid #ededed;
+        padding: 8px 0px;
+        display: table;
+    }
+
+    .thongtinchitiet-main span {
+        display: table-cell;
+        width: 30%;
+    }
+
+    .thongtinchitiet-main p {
+        display: table-cell;
+        width: 70%;
+    }
+/* motasanpham */
+.motasanpham {
+    margin-top: 50px;
+}
+
+.motasanpham-main h3{
+    font-size: 20px;
+    font-weight:bold;
+}
+
+.motasanpham-main img {
+    width: 70%;
+    margin-left: 12%;
+    width:auto;
+}
+
+/* sptuongtu */
+.sptuongtu {
+    /* width: 80%; */
+    border-top: 1px solid #dddddd;
+    margin: 30px 10px;
+    padding-top: 20px;
+}
+
+    .sptuongtu h5 {
+        margin-left: 3%;
+    }
+
+.sptuongtu-main {
+    width: 100%;
+}
+
+    .sptuongtu-main .item1 {
+        width: 99% !important;
+    }
+
+    .sptuongtu-main .mota {
+        width: 110%;
+    }
+
+@media all and (max-width:1300px) {
+    .sptuongtu-main .buy {
+        position: absolute;
+        left: 25%;
+        bottom: 40px;
+    }
+
+    .sptuongtu-main .add {
+        position: absolute;
+        left: 28%;
+        bottom: 20px;
+    }
+}
+
+@media all and (max-width:700px) {
+    .sptuongtu-main .discount {
+        font-size: 21px;
+    }
+
+    .motasanpham-main h3 {
+        font-size: 18px;
+    }
+
+    .motasanpham-main p {
+        font-size: 16px;
+    }
+}
+
+@media all and (max-width:500px) {
+    .motasanpham-main h3 {
+        font-size: 17px;
+    }
+
+    .motasanpham-main p {
+        font-size: 15px;
+    }
+}
+
+@media all and (max-width:350px) {
+    .motasanpham-main h3 {
+        font-size: 14px;
+    }
+
+    .motasanpham-main p {
+        font-size: 13px;
+    }
+}
+

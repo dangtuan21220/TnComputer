@@ -1,0 +1,332 @@
+
+.danhmuc-sp {
+    cursor: pointer;
+    position: relative;
+}
+
+.danhmuc-sp-category {
+    position: absolute;
+    top: 47px;
+    left: -6px;
+    height: 455px;
+    display: none;
+    background: white;
+    z-index: 200;
+    width: 100%;
+}
+
+    .danhmuc-sp-category > ul > li {
+        line-height: 16px;
+    }
+/* content */
+.content-title {
+    margin: 25px 13%;
+}
+
+    .content-title .fa-caret-right {
+        margin: 0px 4px;
+    }
+
+    .content-title a {
+        font-size: 15px;
+    }
+
+    .content-title h3 {
+        color: #3c4a65;
+        margin-top: 25px;
+    }
+/* content-main */
+.content-main {
+    width: 82%;
+    margin: 30px auto !important;
+}
+
+.content-left {
+    margin-left: 1.5%;
+    width: 20%;
+    height: auto;
+    border-radius: 2px;
+    background: #eeeeee;
+}
+
+    .content-left > h6 {
+        color: #222222;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+.hangsanxuat-tieude, .loctheogia-tieude {
+    margin: 30px 10px 0px 10px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid #bbbbbb;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.hangsanxuat-main {
+    margin: 10px 18%;
+}
+    .hangsanxuat-main li {
+
+        list-style-type:circle !important;
+    }
+        .hangsanxuat-main a{
+            color:#222222 !important;
+        }
+            .hangsanxuat-main a:hover{
+                color: darkred !important;
+                text-decoration:none;
+            }
+            /* loctheogia */
+            .loctheogia-main {
+                margin-top: 15px;
+            }
+
+    .loctheogia-main input {
+        width: 65%;
+        margin: 5px 4% !important;
+        font-size: 15px;
+        padding-left: 5px;
+    }
+        
+        .loctheogia-main span {
+            color: rgb(214, 35, 35);
+        }
+
+    .loctheogia-main div {
+        width: 34%;
+        margin: 6px 15px;
+    }
+/* content-right */
+.content-right {
+    margin-left: 1%;
+    width: 76.5%;
+}
+
+.sx-sanpham {
+    height: 60px;
+    background: #eeeeee;
+    border-radius: 2px;
+}
+
+    .sx-sanpham > p {
+        color: rgb(204, 31, 31);
+        padding: 17px;
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .sx-sanpham .form {
+        width: 300px;
+        float: right;
+        margin: -66px 15px;
+    }
+/* danhsachsanpham */
+.danhsachsanpham {
+    width: 100%;
+}
+
+    .danhsachsanpham .item1 {
+        position: relative;
+        border: none;
+        width: 24%;
+        float: left;
+        margin-right: 1%;
+        margin-top: 20px;
+        z-index: 80;
+        box-shadow: 2px 2px 3px #eeeeee, -2px -2px 3px #eeeeee;
+    }
+
+        .danhsachsanpham .item1 del {
+            position: absolute;
+            bottom: 90px;
+        }
+
+@media all and (max-width:1200px) {
+    .content-main {
+        width: 90.6%;
+    }
+
+    .content-title {
+        margin-left: 8%;
+    }
+
+    .content-left > h6 {
+        font-size: 17px;
+    }
+
+    .hangsanxuat-tieude, .loctheogia-tieude {
+        font-size: 15px;
+    }
+
+    .content-right {
+        margin-left: 0.5%;
+    }
+
+    .danhsachsanpham .item1 {
+        margin-right: 0.5%;
+    }
+}
+
+@media all and (max-width:1000px) {
+    .content-main {
+        width: 99%;
+    }
+
+    .content-title {
+        margin-left: 8%;
+    }
+
+    .content-left > h6 {
+        font-size: 17px;
+    }
+
+    .hangsanxuat-tieude, .loctheogia-tieude {
+        font-size: 15px;
+    }
+
+    .content-title {
+        margin-left: 5%;
+    }
+
+    .danhsachsanpham .item1 .price {
+        font-size: 18px;
+    }
+
+    .danhsachsanpham .item1 img {
+        width: 120px;
+        height: 120px;
+        margin: auto;
+    }
+}
+
+@media all and (max-width:800px) {
+    .content-left {
+        width: 0%;
+        display: none;
+    }
+
+    .content-right {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .content-title {
+        margin-left: 38%
+    }
+
+    .sx-sanpham .form {
+        width: 40%;
+    }
+
+    .locsanpham-res {
+        display: flex !important;
+    }
+}
+
+@media all and (max-width:650px) {
+    .danhsachsanpham .item1 {
+        width: 32.5%;
+    }
+
+    .sx-sanpham .form select {
+        font-size: 14px;
+    }
+
+    .sx-sanpham p {
+        font-size: 15px;
+    }
+}
+
+@media all and (max-width:450px) {
+    .content-title {
+        margin-left: 33%;
+    }
+
+    .danhsachsanpham .item1 {
+        width: 49.5%;
+    }
+
+    .sx-sanpham p {
+        font-size: 14px;
+    }
+}
+
+@media all and (max-width:310px) {
+    .danhsachsanpham .item1 {
+        width: 70%;
+        margin-left: 10%;
+    }
+
+    .sx-sanpham p {
+        font-size: 10px;
+    }
+
+    .sx-sanpham .form {
+        width: 50%;
+        margin-top: -20%;
+    }
+
+    .vnd {
+        display: none;
+    }
+}
+
+/* loc san pham res */
+.locsanpham-res {
+    width: 100%;
+    ;
+    display: none;
+    background: #eeeeee;
+    padding: 10px;
+}
+
+.hangsanxuat-res {
+    width: 50%;
+}
+
+.hangsanxuat-main-res > ul {
+    margin-left: 28px;
+    float: left;
+}
+.hangsanxuat-main-res li{
+    list-style-type:circle;
+}
+    .hangsanxuat-main-res li a{
+        color:#222222;
+    }
+.hangsanxuat-main-res a:hover {
+    color: darkred !important;
+    text-decoration: none;
+}
+    .loctheogia-res {
+        margin-left: 2%;
+        width: 47%;
+    }
+
+.loctheogia-main-res input {
+    width: 32%;
+    min-width: 50px;
+    
+}
+
+.loctheogia-main-res > ul {
+    width: 20%;
+    min-width: 50px;
+}
+
+
+.hangsanxuat-tieude-res, .loctheogia-tieude-res {
+    font-weight: bold;
+    font-size: 15px;
+}
+.tin .owl-nav button.owl-next, .tin .owl-nav button.owl-prev {
+    display: none;
+}
+
+.tin .owl-dots {
+    position: absolute;
+    left: 48%;
+    top: 220px;
+}

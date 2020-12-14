@@ -1,0 +1,66 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using System.Data
+@using tony_compurter.Models
+@using tony_compurter.Areas.Admin.Class;
+@functions{
+    DataContext db = new DataContext();
+    public DataTable ListShowroom()
+    {
+        List<Parameter> parameters = new List<Parameter>();
+        DataTable dt = Database.ListDataTable("select * from Showrooms order by id asc", parameters);
+        return dt;
+    }
+}
+<div class="content">
+    <div class="content-title">
+        <a href="trangchu.html" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        <a style="color: #234a76;">liên hệ</a>
+        <h3 style="text-align: center;">Hệ thống các cửa hàng của TONYCOMPUTER</h3>
+    </div>
+    <div class="lienhe-main">
+        @{
+            DataTable listShowroom = ListShowroom();
+        }
+        @foreach (DataRow item in listShowroom.Rows)
+        {
+            <div class="cuahang row">
+                <div class="cuahang-info col-md-4">
+                    <h5>@item["name"]</h5>
+                    <p><b>Địa chỉ</b>: @item["address"]</p>
+                    <p><b>SĐT</b>: @item["phone"]</p>
+                    <p><b>Email</b>: @item["email"]</p>
+                    <p><b>Thời gian mở cửa</b>: @item["open_time"]</p>
+                </div>
+                <div class="cuahang-map col-md-6">
+                    @Html.Raw(item["map"])
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<style>
+    /* lienhe */
+    .lienhe-main {
+        width: 80%;
+        margin: auto;
+        margin-bottom: 50px;
+    }
+
+    .cuahang {
+        margin-top: 50px;
+    }
+
+    .cuahang-info {
+        margin: auto;
+    }
+
+        .cuahang-info h5 {
+            margin: 0px;
+            margin-bottom: 30px;
+        }
+</style>

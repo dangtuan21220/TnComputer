@@ -1,0 +1,129 @@
+﻿@{
+    //load file TrangTrong
+    Layout = "~/Views/Shared/_LayoutTrangTrong.cshtml";
+}
+@using tony_compurter.Models
+@* su dung DataTable, DataRow *@
+@using System.Data
+@* su dung class Database *@
+@using tony_compurter.Areas.Admin.Class
+
+@* khai bao kieu du lieu cho bien Model (bien nay truyen tu controller ra) *@
+@model PagedList.IPagedList<Product>
+@* dong nay de khai bao ham PagedListPager vao doi tuong Html *@
+@using PagedList.Mvc
+@functions{
+    //khai bao doi tuong thao tac csdl
+    public DataContext db = new DataContext();
+    //lay ten danh muc
+    //lay 3 tin
+    public List<News> GetNewsThree()
+    {
+        List<News> listNews = db.News.Where(tbl => tbl.hot == 1).OrderByDescending(tbl => tbl.id).Skip(3).Take(3).ToList();
+        return listNews;
+    }
+
+}
+
+<div class="content container-fluid">
+    <div class="content-title">
+        <a href="/Home/Index" style="color: #555555;">Trang chủ</a>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+
+        <a style="color: #234a76;">Tìm kiếm</a>
+        <h3>Tìm kiếm</h3>
+    </div>
+    <!-- content-main -->
+    <div class="content-main row">
+        <!-- content-left -->
+        <div class="content-left">
+            <h6>LỌC SẢN PHẨM</h6>
+            <div class="border-loc-sp" style="border-top: 2px solid black; margin:-5px auto;width: 65%;"></div>
+            <!-- hangsanxuat -->
+            
+            <!-- loctheogia -->
+            <div class="loctheogia">
+                <div class="loctheogia-tieude">LỌC THEO GIÁ</div>
+                <div class="loctheogia-main">
+                    <input type="number" id="fromPrice" min="0" value="" step="100" placeholder="Min"><span>VNĐ</span><br />
+                    <input type="number" id="toPrice" min="0" value="" step="100" placeholder="Max"><span>VNĐ</span><br />
+                    <input type="button" class="btn btn-primary" style="width:40%;" value="Lọc" onclick="location.href = '/Product/SearchPrice?fromPrice=' + document.getElementById('fromPrice').value + '&toPrice=' + document.getElementById('toPrice').value;" />
+                </div>
+            </div>
+        </div>
+        <!-- content-right -->
+        <div class="content-right">
+            <div class="tins" style="width: 100%; position: relative;margin-bottom:30px;">
+                <div class="owl-carousel owl-theme tin">
+                    @{
+                        List<News> listNews = GetNewsThree();
+                    }
+                    @foreach (News item in listNews)
+                    {
+                        <div class="item" style="display: flex;">
+                            <div class="item1"><a href="/News/Detail/@item.id"><img src="~/Assets/Upload/News/@item.photo" style="width: 120%;height: 250px;"></a></div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="sx-sanpham">
+                <p>Tất cả sản phẩm</p>
+
+            </div>
+
+            <!-- loc san pham res -->
+
+            <div class="locsanpham-res">
+                <!-- <div class="border-loc-sp" style="border-top: 2px solid black; margin:-5px auto;width: 65%;"></div> -->
+                <!-- hangsanxuat -->
+                <!-- loctheogia -->
+                <div class="loctheogia-res">
+                    <div class="loctheogia-tieude-res">LỌC THEO GIÁ</div>
+                    <div class="loctheogia-main-res">
+                        <input type="number" id="fromPriceRes" min="0" value="" step="100" placeholder="Min"><span>-</span>
+                        <input type="number" id="toPriceRes" min="0" value="" step="100" placeholder="Max"><span class="vnd">VNĐ</span>
+                        <input type="button" class="btn btn-primary" style="width:40%;" value="Lọc" onclick="location.href = '/Product/SearchPrice?fromPrice=' + document.getElementById('fromPriceRes').value + '&toPrice=' + document.getElementById('toPriceRes').value;" />
+                    </div>
+                </div>
+            </div>
+            <!-- danhsachsanpham -->
+            <div class="danhsachsanpham top-products-main">
+                @foreach (Product item in Model)
+                {
+
+                    <div class="item1">
+                        <a href="/Product/Detail/@item.id">
+                            <img src="~/Assets/Upload/Products/@item.photo" alt="">
+                            <p class="mota">@item.title</p>
+                            <p class="price" style="text-decoration:line-through;">@string.Format("{0:N0}", item.price)đ</p>
+                            <p class="discount">@string.Format("{0:N0}", item.price - (item.price * item.discount) / 100)đ</p>
+                        </a>
+                        <a href="/Product/WishList/@item.id" class="buy">
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                            Yêu thích
+                        </a>
+                        <a href="/Cart/Add/@item.id" class="add">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            Thêm vào giỏ
+                        </a>
+                    </div>
+
+                }
+
+                <!-- paging -->
+                <div style="clear: both;"></div>
+                <div style="margin-top: 50px;" class="&#x70;&#x61;&#x67;&#x69;&#x6E;&#x61;&#x74;&#x69;&#x6F;&#x6E;&#x2D;&#x63;&#x6F;&#x6E;&#x74;&#x61;&#x69;&#x6E;&#x65;&#x72;">
+                    @{
+                        string _key = Request.QueryString["key"] != null ? Request.QueryString["key"] : "";
+                    }
+                    @Html.PagedListPager(Model, page => Url.Action("Search", new { key = _key, page }))
+                </div>
+                <!-- end paging -->
+            </div>
+            <!--  -->
+
+        </div>
+    </div>
+    <!-- /content-main -->
+</div>
+

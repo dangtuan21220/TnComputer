@@ -1,0 +1,34 @@
+﻿@{
+    //load file _Layout.cshtml vao day
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Create image</div>
+        <div class="panel-body">
+            @* muon upload duoc anh phai co thuoc tinh enctype="multipart/form-data" *@
+            <form method="post" action="" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <!-- rows -->
+                <div class="row" style="margin-top:5px;">
+                    <div class="col-md-2">Upload image</div>
+                    <div class="col-md-10">
+                        <input type="file" name="photo">
+                    </div>
+                </div>
+                <!-- end rows -->
+                <!-- rows -->
+                <div class="row" style="margin-top:5px;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <input type="submit" value="Process" class="btn btn-primary">
+                    </div>
+                </div>
+                <!-- end rows -->
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
